@@ -56,25 +56,14 @@ The essential goal of this part is to get the demand forecast of each region and
 
 	-	In this Git repository, you can download the **'EnergyDemandForecastSolution.pbix'** file under the folder **'Power BI'** and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
 
-  - On the top of the file, click **‘Edit Queries’**. In the pop out window, double click **‘Source’** setting on the right panel .
-
+  - On the top of the file, click **‘Edit Queries’** drop down menu. Then choose **'Data Source Settings'**.
   ![](Figures/PowerBI-7.png)
 
-	- In the pop out window, replace **"Server"** and **"Database"** with
-	your own server and database names, and then click **"OK"**. For server
+	- In the pop out window, click **'Change Source'**, then replace the **"Server"** and **"Database"** with	your own server and database names and click **"OK"**. For server
 	name, make sure you specify the port 1433 in the end of your server string
-	(**YourSolutionName.database.windows.net, 1433**). Ignore the warning
-	messages that appear on the screen.
+	(**YourSolutionName.database.windows.net, 1433**). After you finish editing, close the 'Data Source Settings' window.
 
-	-   In the next pop out window, you'll see two options on the left pane
-	(**Windows** and **Database**). Click **"Database"**, fill in your
-	**"Username"** and **"Password"** (this is the username and password
-	showing on your deployment page). In **'Select which level to apply these
-	settings to'**, choose database level option. Then click
-	**"Connect"**.
-
-	-   Once you're guided back to the previous page, close the window. A message will pop out - click **Apply**. Lastly, click the **Save** button to save
-	the changes. Your Power BI file has now established connection to the server. Initially, you will only see the seed data on your visualizations as the data factory is scheduled to refresh every 1 hour. After 1 hour, you will see new predictions reflected in your visualizations when you refresh the data.
+	- On the top of the screen, you will see a message. Click **'Apply Changes'** and now the dashboard is updated to connect to your database. In the backend, model is scheduled to be refreshed every 1 hour. You can click **'Refresh'** button on the top to get the latest visualization as time moving forward.
 
 3. (Optional) Publish the dashboard to [Power BI
     online](http://www.powerbi.com/). Note that this step needs a Power BI account (or Office 365 account).
