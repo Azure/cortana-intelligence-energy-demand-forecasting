@@ -84,12 +84,10 @@ The essential goal of this part is to get the demand forecast of each region and
 	-   Now you can see new items showing under 'Reports' and 'Datasets'. To create a new dashboard: click the **'+'** sign next to the
     **Dashboards** section on the left pane. Enter the name "Energy Demand Forecasting Demo" for this new dashboard.
 
-	-   Once you open the report, click ![](Figures\PowerBI-4.png) to pin all the
+	-   Once you open the report, click   ![Pin](Figures/PowerBI-4.png) to pin all the
 		visualizations to your dashboard. To find detailed instructions, see [Pin a tile to a Power BI dashboard from a report](https://support.powerbi.com/knowledgebase/articles/430323-pin-a-tile-to-a-power-bi-dashboard-from-a-report). Here is an example of the dashboard.
 
-		![](Figures\PowerBI-11.png)
-
-
+      ![DashboardExample](Figures/PowerBI-11.png)
 
 ### Visualize Energy Data From Real-time Data Stream
 
@@ -125,7 +123,7 @@ to set up the output of your Azure Stream Analytics job as your Power BI dashboa
 3. Now you can directly create a visulization on PowerBI online. We will use this example to show you how to create the "Demand by Timestamp" tile:
 	-	Click dataset **EnergyForecastStreamData** on the left panel Datasets section.
 
-	-	Click **"Line Chart"** icon ![](Figures\PowerBI-3.png).
+	-	Click **"Line Chart"** icon.![LineChart](Figures/PowerBI-3.png)
 
 	-	Click EnergyForecastStreamData in **Fields** panel.
 
