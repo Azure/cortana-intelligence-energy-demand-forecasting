@@ -15,7 +15,7 @@ This solution combines several Azure services to provide powerful advantages. Ev
 The 'Deploy' button will launch a workflow that will deploy an instance of the solution within a Resource Group in the Azure subscription you specify. The solution includes multiple Azure services (described below) along with a web job that simulates data so that immediately after deployment you have a working end-to-end solution. The sample data of this solution is simulated from publicly available data from the NYISO.
 
 ## Solution Diagram
-[![Solution Diagram]({PatternAssetBaseUrl}/energyforecastingdiagram.jpg)]({PatternAssetBaseUrl}/energyforecastingdiagram.jpg)
+[![Solution Diagram](Figures/energyforecastingdiagram.png)
 
 ## Technical details and workflow
 1.	The sample data is streamed by newly deployed **Azure Web Jobs**.
@@ -33,4 +33,4 @@ The 'Deploy' button will launch a workflow that will deploy an instance of the s
 7.	Finally, **Power BI** is used for results visualization, so that users can monitor the energy consumption from a region in real time and use the forecast demand to optimize the power generation or distribution process.
 
 ##### Disclaimer
-©2014 Microsoft Corporation. All rights reserved.  This information is provided "as-is" and may change without notice. Microsoft makes no warranties, express or implied, with respect to the information provided here.  Third party data was used to generate the solution.  You are responsible for respecting the rights of others, including procuring and complying with relevant licenses in order to create similar datasets.
+©2016 Microsoft Corporation. All rights reserved.  This information is provided "as-is" and may change without notice. Microsoft makes no warranties, express or implied, with respect to the information provided here.  Third party data was used to generate the solution.  You are responsible for respecting the rights of others, including procuring and complying with relevant licenses in order to create similar datasets.
