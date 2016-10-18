@@ -14,9 +14,9 @@ After successful deployment, the entire solution is automatically started on clo
 #### Web Jobs
 6 Azure Web jobs are created during the deployment. You can monitor the web jobs by clicking the link on your deployment page.
 * One-time running web jobs are used to start certain Azure services.
-  * PastData: Copies the historical consumption and weather sample data to Azure SQL
-  * GalleryToMLSvc: Creates demand forecast ML experiment and publish it as ML WebService
-  * StartPipelines: Starts the StreamAnalysis pipeline
+  * PastData: Copies the historical consumption and weather sample data to Azure SQL.
+  * GalleryToMLSvc: Creates demand forecast ML experiment and publish it as ML WebService.
+  * StartPipelines: Starts the Azure Data Factory pipelines.
 * Continuous running web jobs are used as data generator.
   * FiveMinsDataToEH: Simulates energy consumption data and sends it to Event Hub every 5 minutes.
   * FiveMinsDataToSQL: Simulates energy consumption data and sends it to Azure SQL every 5 minutes.
