@@ -102,7 +102,7 @@ to set up the output of your Azure Stream Analytics job as your Power BI dashboa
 
     - Now you have added the Power BI output, you can click ![Start](Figures/PowerBI-2.png) at the top of the page to start the Stream Analytics job. You will get a confirmation message (e.g. 'Streaming Job started successfully').
 
-2. Log in to [Power BI online](http://www.powerbi.com)
+2. Login on [Power BI online](http://www.powerbi.com)
 
     -   On the left panel Datasets section in My Workspace, you should be able to see a new dataset showing on the left panel of Power BI. This is the streaming data you pushed from Azure Stream Analytics in the previous step.
 
