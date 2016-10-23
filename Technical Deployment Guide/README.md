@@ -167,39 +167,51 @@ In the ***Author and deploy*** blade, we will create all the components of the d
 
 
 #### 2) Create Linked Services
-will create 2 Linked services in this solution. The scripts of the Linked services are located in the folder ***Data Factory\\LinkedServices*** of the solution package.
+We will create 2 Linked services in this solution. The scripts of the Linked services are located in the folder ***Azure Data Factory\\1-Linked Services*** of the solution package.
 
-- **AzureSqlLinkedService.** This is the Linked service for the Azure SQL database.
+- **LinkedService-AzureSQL**: This is the Linked service for the Azure SQL database.
 
-  -   Open the file ***Data Factory\\LinkedServices\\AzureSqlLinkedService.json***. Replace \[Azure SQL server name\], \[Azure SQL database name\], \[SQL login user name\], and \[SQL login password\] with the corresponding information from the [Azure SQL Server and Database](#azure-sql-server-and-database) section.
+  -   Open the file ***Azure Data Factory\\1-Linked Services\\LinkedService-AzureSQL.json***. Replace the following items with your Azure SQL credentials.
+
+    - Azure SQL server name
+
+    - Azure SQL database name
+
+    - Azure SQL login user name
+
+    - Azure SQL login password
 
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
 
   -   Click ***New data store*** and select ***Azure SQL***.
 
-  -   Overwrite the content in the editor window with the content of the modified AzureSqlLinkedService.json.
+  -   Overwrite the content in the editor window with the content of the modified *LinkedService-AzureSQ.json*.
 
   -   Click ***Deploy***.
 
-- **AzureMLEndpoint.** This is the Linked service for the Azure Machine Learning web service.
+- **LinkedService-AzureML**: This is the Linked service for the Azure Machine Learning web service.
 
-  -   Open the file ***Data Factory\\LinkedServices\\AzureMLEndpoint.json***. Replace \[Azure Machine Learning web service URI\] and \[Azure Machine Learning web service API key\] with the corresponding information from the [Create Azure Studio ML Workspace and Experiment](#create-azure-studio-ml-workspace-and-experiment) section.
+  -   Open the file ***Azure Data Factory\\1-Linked Services\\LinkedService-AzureML.json***. Replace the following items with your Azure ML Web Service information.
+
+    - Azure Machine Learning web service URI
+
+    - Azure Machine Learning web service API key
 
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
 
   -   Click ***New compute*** and select ***Azure ML***.
 
-  -   Overwrite the content in the editor window with the content of the modified AzureMLEndpoint.json.
+  -   Overwrite the content in the editor window with the content of the modified LinkedService-AzureML.json.
 
   -   Click ***Deploy***.
 
 #### 3) Create Datasets
 
-We will create 11 datasets pointing to Azure SQL tables. We will use the JSON files located at ***Data Factory\\Datasets.*** No modification is needed on the JSON files.
+We will create ADF datasets pointing to Azure SQL tables. We will use the JSON files located at ***Azure Data Factory\\2-Datasets***. No modification is needed on the JSON files.
 
-On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
+- On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
 
-For each JSON file under ***Data Factory\\Datasets\\SQLDatasets***,
+For each JSON file under ***Azure Data Factory\\2-Datasets***,
 
 -   At the top of the left tab, click ***New dataset*** and select ***Azure SQL ***
 
@@ -207,21 +219,55 @@ For each JSON file under ***Data Factory\\Datasets\\SQLDatasets***,
 
 -   Click ***Deploy***
 
-The excel file ***\\Data Factory\\Datasets\\DatasetDescription.xlsx*** describes the content of each dataset and how it gets updated. Re-visiting this file after creating the data pipelines may help you better understand the datasets.
-
 #### 4) Create Pipelines
 
-We will create 12 pipelines.
+We will create 12 pipelines in total. Here is a snapshot.
 
 ![](Figures/ADFPipelineExample.png)
 
+We will use the JSON files located at ***Azure Data Factory\\3-Pipelines.*** At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active and are in UTC time. You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/).
 
+- Data aggregation pipeline
 
-We will use the JSON files located at ***Data Factory\\Pipelines.*** At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active and are in UTC time. We will modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/).
+  This pipeline trigger the SQL procedure to aggregate the 5mins consumption data to hourly data.
 
-- Hourly aggregation pipeline
-- Hourly model retraining and scoring pipeline
+  - Open the file ***Azure Data Factory\\3-Pipelines\\Pipeline-SQLProcedure.json***
 
+  - Specify an active period that you want the pipeline to run. For example, if you want to test the template for 5 days, then set the start and end time as something like:
+
+    ```JSON
+    "start": "2016-11-01T00:00:00Z",
+    "end": "2016-11-06T00:00:00Z",
+    ```
+    NOTE: Please limit the active period to the amount of time you need to test the pipeline to limit the cost incurred by data movement and processing.
+
+  - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
+  - At the top of the tab, click ***More commands*** and then ***New pipeline***
+
+  - Copy the content of the modified JSON file into the editor
+
+  - Click ***Deploy***
+
+- Machine learning model retraining and reforecasting pipeline
+
+  There are 11 pipelines in total, one for each region. Each pipeline will send latest data for a particular region to machine learning model, trigger the web service so that the Azure machine learning will retrain based on the new data and reproduce the latest forecast. Then the results will be written back to SQL table.
+  - Open the file ***Azure Data Factory\\3-Pipelines\\Pipeline-ML-Region52.json***
+
+  - Specify an active period that you want the pipeline to run. For example, if you want to test the template for 5 days, then set the start and end time as something like:
+
+    ```JSON
+    "start": "2016-11-01T00:00:00Z",
+    "end": "2016-11-06T00:00:00Z",
+    ```
+    NOTE: Please make sure you put the same time range as you defined in other pipelines.
+
+  - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
+
+  - At the top of the tab, click ***More commands*** and then ***New pipeline***
+
+  - Copy the content of the modified JSON file into the editor
+
+  - Click ***Deploy***
 
 ### 6. Setup Power BI [YC]
 The essential goal of this part is to get the demand forecast of each region and visualize it. Power BI can directly connect to an Azure SQL database as its data source, where the prediction results are stored.
