@@ -1,0 +1,17 @@
+{
+    "name": "sql_output_61",
+    "properties": {
+        "published": false,
+        "type": "AzureSqlTable",
+        "linkedServiceName": "sql_link",
+        "typeProperties": {
+            "tableName": "DemandForecast24hrs"
+        },
+        "availability": {
+            "frequency": "Hour",
+            "interval": 1,
+            "offset": "00:15:00",
+            "style": "StartOfInterval"
+        }
+    }
+}

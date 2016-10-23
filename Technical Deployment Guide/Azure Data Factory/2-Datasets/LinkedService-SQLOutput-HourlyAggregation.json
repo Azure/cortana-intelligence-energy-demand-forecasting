@@ -1,0 +1,17 @@
+{
+    "name": "SQLOutputHourlyData",
+    "properties": {
+        "published": false,
+        "type": "AzureSqlTable",
+        "linkedServiceName": "sql_link",
+        "typeProperties": {
+            "tableName": "DemandHistoryHourly"
+        },
+        "availability": {
+            "frequency": "Minute",
+            "interval": 20,
+            "offset": "00:10:00",
+            "style": "StartOfInterval"
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "name": "sql_input",
+    "properties": {
+        "published": false,
+        "type": "AzureSqlTable",
+        "linkedServiceName": "sql_link",
+        "typeProperties": {
+            "tableName": "DemandHistoryHourly"
+        },
+        "availability": {
+            "frequency": "Hour",
+            "interval": 1,
+            "offset": "00:15:00",
+            "style": "StartOfInterval"
+        },
+        "external": true,
+        "policy": {
+            "externalData": {
+                "dataDelay": "00:01:00",
+                "retryInterval": "00:01:00",
+                "retryTimeout": "00:20:00",
+                "maximumRetry": 3
+            }
+        }
+    }
+}

@@ -97,7 +97,7 @@ Now that we have a workspace to work within, we can copy over the required exper
 
 - Navigate to ***studio.azureml.net*** and log into your account
 
-- In the upper right hand corner you will see a workspace name. If this does not match the name of the workspace we just created, use the arrow button to expose the workspace selection menu and choose the workspace *energytemplate\[UI\]\[N\]*.
+- In the upper right hand corner you will see a workspace name. If this does not match the name of the workspace we just created, use the arrow button to expose the workspace selection menu and choose the workspace *energysolution\[UI\]\[N\]*.
 
 - Go to [Energy Demand Forecast Solution -Machine Learning Model Example](https://gallery.cortanaintelligence.com/Details/975ed028d71b490b9268d35094138358) in Cortana Intelligence Gallery.
 
@@ -125,18 +125,18 @@ Now that we have a workspace to work within, we can copy over the required exper
 - Click the link ***BATCH EXECUTION*** under the ***API HELP PAGE*** section. On the BATCH EXECUTION help page, copy the ***Request URI*** under the ***Request*** section and add it to the table below as you will need this information later. Copy only the URI part https:… /jobs, ignoring the URI parameters starting with ? .
 
 | **Web Service BES Details** |                           |
-|-----------------------------|---------------------------|
+| --------------------------- |--------------------------:|
 | API Key                     | API key from API help page|
 | Request URI\*               |                           ||
 
-
 ### 5. Setup Azure Data Factory (ADF) [YC]
-We have now created all the necessary components for building data pipelines in Azure Data Factory. Data factory orchestrates all Azure data services to move and process data in pipelines.
+Azure Data Factory can be used to orchestrate the entire data pipeline. In this solution, it is mainly used to schedule the data aggregation and model retraining. Here is an overview of the ADF pipeline.
 
-Here is an overview of the ADF pipeline.
-...
+**1 Data Aggregation Pipeline**: Simulated data from Azure web job are sent to Azure SQL every 5mins. When we are building machine learning model, we use hourly data. Therefore, we write a SQL procedure to aggregate the 5mins consumption data to hourly average consumption data. One pipeline is created in Azure Data Factory to trigger the procedure so that we always have the latest hourly consumption data.
 
-There are 3 main components of ADF: link service, dataset and pipieline. Please check the details here.
+**11 Model Training and Forecasting Pipelines**: There are 11 sub-regions in NYISO and we build one model for each region. Therefore, 11 pipelines are created in Azure Data Factory to trigger the Azure Machine Learning Web Service. Each pipeline sends data from a particular region to the web service and gets the latest retrained model and forecast results. All the results are written back to Azure SQL.
+
+There are 3 main components of ADF: link service, dataset and pipeline. You can check the definition of each components [here](https://azure.microsoft.com/en-us/documentation/articles/data-factory-introduction/). In the following instructions, we will show you how to create them for this solution.
 
 #### 1) Create Azure Data Factory
 
@@ -145,9 +145,9 @@ There are 3 main components of ADF: link service, dataset and pipieline. Please 
 
 -   On the left tab click ***New&gt;Data and Analytics&gt;Data Factory***
 
--   Name: *energytemplate\[UI\]\[N\]*
+-   Name: *energysolution\[UI\]\[N\]*
 
--   Resource Group: Choose the resource group created previously ***energytemplate\_resourcegroup***
+-   Resource Group: Choose the resource group created previously ***energysolution\_resourcegroup***
 
 -   Location: EAST US
 
@@ -157,13 +157,13 @@ After the data factory is created successfully
 
 -   On the left tab in the portal page (portal.azure.com), click ***Resource groups***
 
--   Search for the resource group created previously, ***energytemplate\_resourcegroup***
+-   Search for the resource group created previously, ***energysolution\_resourcegroup***
 
--   Under Resources, click on the data factory we just created, *energytemplate\[UI\]\[N\]*
+-   Under Resources, click on the data factory we just created, *energysolution\[UI\]\[N\]*
 
 -   Locate the ***Actions*** panel and click on ***Author and deploy***.
 
-In the ***Author and deploy*** blade, we will create all the components of the data factory. Note that Datasets are dependent on Linked services, and pipelines are dependent on Linked services and Datasets. So we will create Linked services first, then Datasets, and pipelines at last.
+In the ***Author and deploy*** blade, we will create all the components of the data factory. Note that Datasets are dependent on Linked services, and pipelines are dependent on Linked services and Datasets. So we will create Linked services first, then Datasets, and Pipelines at last.
 
 
 #### 2) Create Linked Services
