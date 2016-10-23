@@ -1,4 +1,4 @@
-# [Demand Forecast for Energy Solution](https://go.microsoft.com/fwlink/?linkid=831187)
+# [Energy Demand Forecast Solution](https://go.microsoft.com/fwlink/?linkid=831187)
 
 # Post Deployment Instructions
 Once the solution is deployed to the subscription, you can see the services deployed by clicking the resource group name on the final deployment screen in the CIS.

@@ -1,0 +1,43 @@
+{
+    "name": "ml_pipeline_52",
+    "properties": {
+        "description": "Energy Forecast ML Activity",
+        "activities": [
+            {
+                "type": "AzureMLBatchScoring",
+                "typeProperties": {
+                    "webServiceParameters": {
+                        "Database query": "$$Text.Format('select b.utcTimestamp as utcTimeStamp, b.PTID, a.HourAvgLoad, b.temperature from (select * from DemandHistoryHourly where PTID=61752 and utcTimeStamp>=\\'{0:yyyy-MM-dd HH:mm:ss}\\'and utcTimeStamp<=\\'{1:yyyy-MM-dd HH:mm:ss}\\') as a right join (select utcTimestamp, PTID, temperature from WeatherHourly where PTID=61752 and utcTimestamp>=\\'{0:yyyy-MM-dd HH:mm:ss}\\'and utcTimestamp<\\'{2:yyyy-MM-dd HH:mm:ss}\\') as b on a.utcTimeStamp=b.utcTimestamp',Date.AddYears(WindowStart, -1),WindowStart,Time.AddHours(WindowStart, 24))",
+                        "Data table name": "DemandForecast24hrs"
+                    }
+                },
+                "inputs": [
+                    {
+                        "name": "sql_input"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "sql_output_52"
+                    }
+                ],
+                "policy": {
+                    "timeout": "00:20:00",
+                    "concurrency": 1,
+                    "retry": 3
+                },
+                "scheduler": {
+                    "frequency": "Hour",
+                    "interval": 1,
+                    "offset": "00:15:00",
+                    "style": "StartOfInterval"
+                },
+                "name": "AMLBatchScoring",
+                "linkedServiceName": "ml_link"
+            }
+        ],
+        "start": "<The start date-time of the duration in which data processing will occur or the data slices will be processed. Example : 2014-05-01T00:00:00Z>",
+        "end": "<The end date-time of the duration in which data processing will occur or the data slices will be processed. Example: 2014-05-05T00:00:00Z>",
+        "isPaused": false
+    }
+}

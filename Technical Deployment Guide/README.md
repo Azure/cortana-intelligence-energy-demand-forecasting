@@ -1,12 +1,13 @@
-# Energy Demand Forecasting in Cortana Intelligence Suite
+# Energy Demand Forecast Solution in Cortana Intelligence Suite
 
 
 ## Abstract [YC]
+This solution focuses on demand forecasting within the energy sector. Storing energy is not cost-effective, so utilities and power generators need to forecast future power consumption so that they can efficiently balance the supply with the demand. During peak hours, short supply can result in power outages. Conversely, too much supply can result in waste of resources. Advanced demand forecasting techniques detail hourly demand and peak hours for a particular day, allowing an energy provider to optimize the power generation process. This solution using Cortana Intelligence enables energy companies to quickly introduce powerful forecasting technology into their business.
+
+This solution combines several Azure services to provide powerful advantages. Event Hubs collects real-time consumption data. Stream Analytics aggregates the streaming data and makes it available for visualization. Azure SQL stores and transforms the consumption data. Machine Learning implements and executes the forecasting model. PowerBI visualizes the real-time energy consumption as well as the forecast results. Finally, Data Factory orchestrates and schedules the entire data flow.
 
 
-The recently published [Energy Demand Forecasting Solution Template](https://gallery.cortanaintelligence.com/SolutionTemplate/Demand-Forecasting-for-Energy-1) provides one-click deployment of an energy demand forecasting solution in Cortana Intelligence Suite. This [blog](https://blogs.technet.microsoft.com/machinelearning/2016/03/22/solution-template-for-energy-demand-forecasting/) gives a high level overview of the solution template. Advanced analytics solution implementers, i.e. Data Scientists and Data Engineers, usually need deeper understanding of the template components and architecture in order to use, maintain, and improve the solution.
-
-This documentation provides more details of the solution template and step-by-step deployment instructions. Going through this manual deployment process will help implementers gain an inside view on how the solution is built and the function of each component.
+The published [Energy Demand Forecast Solution](https://go.microsoft.com/fwlink/?linkid=831187) provides one-click deployment of an energy demand forecast solution in Cortana Intelligence Suite. Advanced analytics solution implementers, i.e. Data Scientists and Data Engineers, usually need deeper understanding of the template components and architecture in order to use, maintain, and improve the solution. This documentation provides more details of the solution and step-by-step deployment instructions. Going through this manual deployment process will help implementers gain an inside view on how the solution is built and the function of each component.
 
 ## Requirements [PS]
 
@@ -31,26 +32,31 @@ You will need the following accounts and software to create this solution:
 It will take about one day to implement this solution if you have all the required software/resources ready to use. The content of the document **Energy Demand Forecasting in Cortana Intelligence Suite_Deployment Guide.docx** is the same as this readme file. Use that documentation if you prefer reading a word document.
 
 ## Architecture[YC]
-<img src="Figures/energyforecastingdiagram.png"/>
+![](Figures/energyforecastingdiagram.png)
 
-1.	The sample data is streamed by newly deployed **Azure Web Jobs**.
+The figure above shows the overall architecture of the Energy Demand Forecast solution. There are two paths of the solution: real-time path on the top and batch path on the bottom.
 
-2.	This synthetic data feeds into the **Azure Event Hubs** and **Azure SQL** service as data points or events, that will be used in the rest of the solution flow.
+In the real-time path:
+- The data is simulated from **Azure Web Jobs** and feeds into the **Azure Event Hub**.
 
-3.	**Azure Stream Analytics** analyze the data to provide near real-time analytics on the input stream from the event hub and directly publish to PowerBI for visualization.
+- We use **Azure Stream Analytics** to process the data and provide near real-time analytics on the input stream from the event hub and directly publish to **Power BI** for visualization.
 
-4.	The **Azure Machine Learning** service is used to make forecast on the energy demand of particular region given the inputs received.
+In the bath path:
+- The data is simulated from **Azure Web Jobs** and feeds into the **Azure SQL Database**.
 
-5.	**Azure SQL Database** is used to store the prediction results received from the **Azure Machine Learning** service. These results are then consumed in the **Power BI** dashboard.
+- **Azure Machine Learning** service is used to make forecast on the energy demand of particular region given the inputs received.
 
-6. **Azure Data Factory** handles orchestration, and scheduling of the hourly model retraining.
+- **Azure SQL Database** is used to store the prediction results received from the **Azure Machine Learning** service.
 
-7.	Finally, **Power BI** is used for results visualization, so that users can monitor the energy consumption from a region in real time and use the forecast demand to optimize the power generation or distribution process.
+- **Azure Data Factory** handles orchestration, and scheduling of the hourly model retraining and reforecasting.
+
+- Finally, **Power BI** is used for results visualization, so that users can monitor the energy consumption from each region and use the forecast demand to optimize the power generation or distribution process.
+
+This architecture is an example that demonstrates one way of building energy forecast solution in Cortana Intelligence Suite. User can modify the architecture and include other Azure services based on different business needs.
 
 ## Setup Steps
+This section walks the readers through the creation of each of the Cortana Intelligence Suite services in the architecture.
 
-There are two paths: Batch path and real-time path.
-Explain each path here.
 
 ## Batch Path Setup Steps
 
@@ -62,64 +68,75 @@ Explain each path here.
 
 ### 4. Setup Azure Machine Learning [YC]
 
-This section assumes that you have not set up any workspaces in Azure Machine Learning Studio but that you do have an account at <https://studio.azureml.net/>.
+This section assumes that you have not set up any workspaces in Azure Machine Learning Studio but you do meet the requirements mentioned in the section before.
 
-The first thing we need to do is to create the workspace. A workspace is where Azure Machine Learning experiments are created. It is also tied to a storage account for intermediate results during experiment processing. You can invite others to your workspace by adding them as *USERS* to share and collaborate with people.
+#### 1) Create Azure Machine Learning Workspace
+The first thing we need to do is to create the workspace. A workspace is where Azure Machine Learning experiments are created. It is also tied to a storage account for intermediate results during experiment processing.
 
--   Navigate to ***manage.windowsazure.com*** and login in to your account.
+-  Navigate to **portal.azure.com** and login in with your Azure account.
 
-<!-- -->
+-  On the left, click the **'+'** sign.
 
--   On the left tab click ***MACHINE LEARNING***
+-  In pop out column, type in ***Azure Machine Learning*** in the search bar and then hit enter.
 
--   In the bottom left hand corner click ***NEW***
+- From the next pop out column, choose **Machine Learning Workspace** and then in the new window click **Create**.
 
--   Choose *DATA SERVICES\\MACHINE LEARNING\\QUICK CREATE*
+-  In the new window, entern the folllowing things:
+  - Workspace name: *energysolution[UI][N]*.
+  - Subscription: choose the one that you are using right now.
+  - Resource group: choose the one that you have created.
+  - Location: *South Central US*.
+  - Storage account: select *Create new* and usually the storage name is automatically generated from your workspace name (i.e. *energysolution[UI][N]storage*). You can choose your own storage name as well.
+  - Web service plan: choose *Create new* and then enter a name that you choose. Click *Web service plan pricing tier* to select the plan that you want.
+  - Click *Create*.
 
--   For workspace name enter *energytemplate\[UI\]\[N\]*
-
--   Location South Central US
-
--   Choose the storage account created earlier. **NOTE:** If the previously created storage account doesn’t show up, use an existing one or create a new one. This storage account is for storing intermediate results and log files of Azure Machine Learning.
-
--   Click on ***Create an ML Workspace***
-
+Once the Azure Machine Learning Workspace is created, you will receive a *Deployments succeeded* massage on the portal, as well as an email notification.
 Now that we have a workspace to work within, we can copy over the required experiment from the Cortana Intelligence Gallery.
 
--   Navigate to ***studio.azureml.net*** and log into your account
+#### 2) Get the energy forecast model
 
--   In the upper right hand corner you will see a workspace name. If this does not match the name of the workspace we just created, use the arrow button to expose the workspace selection menu and choose the workspace *energytemplate\[UI\]\[N\]*.
+- Navigate to ***studio.azureml.net*** and log into your account
 
--   Go to [energy forecast sample experiment](https://gallery.cortanaintelligence.com/Details/975ed028d71b490b9268d35094138358) in Cortana Intelligence Gallery.
+- In the upper right hand corner you will see a workspace name. If this does not match the name of the workspace we just created, use the arrow button to expose the workspace selection menu and choose the workspace *energysolution\[UI\]\[N\]*.
 
--   On the experiment page click the ***Open In Studio*** button
+- Go to [Energy Demand Forecast Solution -Machine Learning Model Example](https://gallery.cortanaintelligence.com/Details/975ed028d71b490b9268d35094138358) in Cortana Intelligence Gallery.
 
--   In the dialog ***Copy experiment from Gallery***, choose appropriate location ***South Central US*** and the workspace we created earlier that you would like to copy it into. Click the **√** button.
+- On the experiment page click the ***Open In Studio*** button
 
--   This process may take a minute and the experiment will open in the requested workspace.
+- In the dialog ***Copy experiment from Gallery***, choose appropriate location ***South Central US*** and the workspace we created earlier that you would like to copy it into. Click the **√** button.
 
--   Click ***RUN*** at the bottom of the experiment page. This step will take less than a minute to finish and all objects in the graph will have a green check box on them to indicate they have finished running.
+- This process may take a minute and the experiment will open in the requested workspace.
 
--   Click ***DEPLOY WEB SERVICE*** at the bottom of the page to create the Azure Web Service associated with the experiment. When completed, the browser will redirect to the web service home page.
+- In the experiment you will see the two boxes in the beginning and end have a red sign. This is because you have not enter your database credentials yet. Click the boxes with the red sign, replace the following things with your own database credentials that you get from the previous steps.
+  - Database server name
+  - Database name
+  - Server user account name
+  - Server user account password
 
-    -   The web service home page can also be found by clicking the ***WEB SERVICES*** button on the left menu of the studio.azureml.net page once logged in.
 
--   Copy the ***API key*** from the web service home page and add it to the table below as you will need this information later.
+- Click ***RUN*** at the bottom of the experiment page. This step will take less than a minute to finish and all objects in the graph will have a green check box on them to indicate they have finished running.
 
--   Click the link ***BATCH EXECUTION*** under the ***API HELP PAGE*** section. On the BATCH EXECUTION help page, copy the ***Request URI*** under the ***Request*** section and add it to the table below as you will need this information later. Copy only the URI part https:… /jobs, ignoring the URI parameters starting with ? .
+- Click ***SET UP WEB SERVICE*** and choose ***Deploy Web Service [Classic]*** at the bottom of the page to create the Azure Web Service associated with the experiment. When completed, the browser will redirect to the web service home page.
+
+    -   The web service home page can also be found by clicking the ***WEB SERVICES*** button on the left menu once logged in your workspace.
+
+- Copy the ***API key*** from the web service home page and add it to the table below as you will need this information later.
+
+- Click the link ***BATCH EXECUTION*** under the ***API HELP PAGE*** section. On the BATCH EXECUTION help page, copy the ***Request URI*** under the ***Request*** section and add it to the table below as you will need this information later. Copy only the URI part https:… /jobs, ignoring the URI parameters starting with ? .
 
 | **Web Service BES Details** |                           |
-|-----------------------------|---------------------------|
+| --------------------------- |--------------------------:|
 | API Key                     | API key from API help page|
 | Request URI\*               |                           ||
 
 ### 5. Setup Azure Data Factory (ADF) [YC]
-We have now created all the necessary components for building data pipelines in Azure Data Factory. Data factory orchestrates all Azure data services to move and process data in pipelines.
+Azure Data Factory can be used to orchestrate the entire data pipeline. In this solution, it is mainly used to schedule the data aggregation and model retraining. Here is an overview of the ADF pipeline.
 
-Here is an overview of the ADF pipeline.
-...
+**1 Data Aggregation Pipeline**: Simulated data from Azure web job are sent to Azure SQL every 5mins. When we are building machine learning model, we use hourly data. Therefore, we write a SQL procedure to aggregate the 5mins consumption data to hourly average consumption data. One pipeline is created in Azure Data Factory to trigger the procedure so that we always have the latest hourly consumption data.
 
-There are 3 main components of ADF: link service, dataset and pipieline. Please check the details here.
+**11 Model Training and Forecasting Pipelines**: There are 11 sub-regions in NYISO and we build one model for each region. Therefore, 11 pipelines are created in Azure Data Factory to trigger the Azure Machine Learning Web Service. Each pipeline sends data from a particular region to the web service and gets the latest retrained model and forecast results. All the results are written back to Azure SQL.
+
+There are 3 main components of ADF: link service, dataset and pipeline. You can check the definition of each components [here](https://azure.microsoft.com/en-us/documentation/articles/data-factory-introduction/). In the following instructions, we will show you how to create them for this solution.
 
 #### 1) Create Azure Data Factory
 
@@ -128,9 +145,9 @@ There are 3 main components of ADF: link service, dataset and pipieline. Please 
 
 -   On the left tab click ***New&gt;Data and Analytics&gt;Data Factory***
 
--   Name: *energytemplate\[UI\]\[N\]*
+-   Name: *energysolution\[UI\]\[N\]*
 
--   Resource Group: Choose the resource group created previously ***energytemplate\_resourcegroup***
+-   Resource Group: Choose the resource group created previously ***energysolution\_resourcegroup***
 
 -   Location: EAST US
 
@@ -140,49 +157,61 @@ After the data factory is created successfully
 
 -   On the left tab in the portal page (portal.azure.com), click ***Resource groups***
 
--   Search for the resource group created previously, ***energytemplate\_resourcegroup***
+-   Search for the resource group created previously, ***energysolution\_resourcegroup***
 
--   Under Resources, click on the data factory we just created, *energytemplate\[UI\]\[N\]*
+-   Under Resources, click on the data factory we just created, *energysolution\[UI\]\[N\]*
 
 -   Locate the ***Actions*** panel and click on ***Author and deploy***.
 
-In the ***Author and deploy*** blade, we will create all the components of the data factory. Note that Datasets are dependent on Linked services, and pipelines are dependent on Linked services and Datasets. So we will create Linked services first, then Datasets, and pipelines at last.
+In the ***Author and deploy*** blade, we will create all the components of the data factory. Note that Datasets are dependent on Linked services, and pipelines are dependent on Linked services and Datasets. So we will create Linked services first, then Datasets, and Pipelines at last.
 
 
 #### 2) Create Linked Services
-will create 2 Linked services in this solution. The scripts of the Linked services are located in the folder ***Data Factory\\LinkedServices*** of the solution package.
+We will create 2 Linked services in this solution. The scripts of the Linked services are located in the folder ***Azure Data Factory\\1-Linked Services*** of the solution package.
 
-- **AzureSqlLinkedService.** This is the Linked service for the Azure SQL database.
+- **LinkedService-AzureSQL**: This is the Linked service for the Azure SQL database.
 
-  -   Open the file ***Data Factory\\LinkedServices\\AzureSqlLinkedService.json***. Replace \[Azure SQL server name\], \[Azure SQL database name\], \[SQL login user name\], and \[SQL login password\] with the corresponding information from the [Azure SQL Server and Database](#azure-sql-server-and-database) section.
+  -   Open the file ***Azure Data Factory\\1-Linked Services\\LinkedService-AzureSQL.json***. Replace the following items with your Azure SQL credentials.
+
+    - Azure SQL server name
+
+    - Azure SQL database name
+
+    - Azure SQL login user name
+
+    - Azure SQL login password
 
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
 
   -   Click ***New data store*** and select ***Azure SQL***.
 
-  -   Overwrite the content in the editor window with the content of the modified AzureSqlLinkedService.json.
+  -   Overwrite the content in the editor window with the content of the modified *LinkedService-AzureSQ.json*.
 
   -   Click ***Deploy***.
 
-- **AzureMLEndpoint.** This is the Linked service for the Azure Machine Learning web service.
+- **LinkedService-AzureML**: This is the Linked service for the Azure Machine Learning web service.
 
-  -   Open the file ***Data Factory\\LinkedServices\\AzureMLEndpoint.json***. Replace \[Azure Machine Learning web service URI\] and \[Azure Machine Learning web service API key\] with the corresponding information from the [Create Azure Studio ML Workspace and Experiment](#create-azure-studio-ml-workspace-and-experiment) section.
+  -   Open the file ***Azure Data Factory\\1-Linked Services\\LinkedService-AzureML.json***. Replace the following items with your Azure ML Web Service information.
+
+    - Azure Machine Learning web service URI
+
+    - Azure Machine Learning web service API key
 
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
 
   -   Click ***New compute*** and select ***Azure ML***.
 
-  -   Overwrite the content in the editor window with the content of the modified AzureMLEndpoint.json.
+  -   Overwrite the content in the editor window with the content of the modified LinkedService-AzureML.json.
 
   -   Click ***Deploy***.
 
 #### 3) Create Datasets
 
-We will create 11 datasets pointing to Azure SQL tables. We will use the JSON files located at ***Data Factory\\Datasets.*** No modification is needed on the JSON files.
+We will create ADF datasets pointing to Azure SQL tables. We will use the JSON files located at ***Azure Data Factory\\2-Datasets***. No modification is needed on the JSON files.
 
-On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
+- On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
 
-For each JSON file under ***Data Factory\\Datasets\\SQLDatasets***,
+For each JSON file under ***Azure Data Factory\\2-Datasets***,
 
 -   At the top of the left tab, click ***New dataset*** and select ***Azure SQL ***
 
@@ -190,21 +219,55 @@ For each JSON file under ***Data Factory\\Datasets\\SQLDatasets***,
 
 -   Click ***Deploy***
 
-The excel file ***\\Data Factory\\Datasets\\DatasetDescription.xlsx*** describes the content of each dataset and how it gets updated. Re-visiting this file after creating the data pipelines may help you better understand the datasets.
-
 #### 4) Create Pipelines
 
-We will create 12 pipelines.
+We will create 12 pipelines in total. Here is a snapshot.
 
 ![](Figures/ADFPipelineExample.png)
 
+We will use the JSON files located at ***Azure Data Factory\\3-Pipelines.*** At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active and are in UTC time. You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/).
 
+- Data aggregation pipeline
 
-We will use the JSON files located at ***Data Factory\\Pipelines.*** At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active and are in UTC time. We will modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/).
+  This pipeline trigger the SQL procedure to aggregate the 5mins consumption data to hourly data.
 
-- Hourly aggregation pipeline
-- Hourly model retraining and scoring pipeline
+  - Open the file ***Azure Data Factory\\3-Pipelines\\Pipeline-SQLProcedure.json***
 
+  - Specify an active period that you want the pipeline to run. For example, if you want to test the template for 5 days, then set the start and end time as something like:
+
+    ```JSON
+    "start": "2016-11-01T00:00:00Z",
+    "end": "2016-11-06T00:00:00Z",
+    ```
+    NOTE: Please limit the active period to the amount of time you need to test the pipeline to limit the cost incurred by data movement and processing.
+
+  - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
+  - At the top of the tab, click ***More commands*** and then ***New pipeline***
+
+  - Copy the content of the modified JSON file into the editor
+
+  - Click ***Deploy***
+
+- Machine learning model retraining and reforecasting pipeline
+
+  There are 11 pipelines in total, one for each region. Each pipeline will send latest data for a particular region to machine learning model, trigger the web service so that the Azure machine learning will retrain based on the new data and reproduce the latest forecast. Then the results will be written back to SQL table.
+  - Open the file ***Azure Data Factory\\3-Pipelines\\Pipeline-ML-Region52.json***
+
+  - Specify an active period that you want the pipeline to run. For example, if you want to test the template for 5 days, then set the start and end time as something like:
+
+    ```JSON
+    "start": "2016-11-01T00:00:00Z",
+    "end": "2016-11-06T00:00:00Z",
+    ```
+    NOTE: Please make sure you put the same time range as you defined in other pipelines.
+
+  - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
+
+  - At the top of the tab, click ***More commands*** and then ***New pipeline***
+
+  - Copy the content of the modified JSON file into the editor
+
+  - Click ***Deploy***
 
 ### 6. Setup Power BI [YC]
 The essential goal of this part is to get the demand forecast of each region and visualize it. Power BI can directly connect to an Azure SQL database as its data source, where the prediction results are stored.

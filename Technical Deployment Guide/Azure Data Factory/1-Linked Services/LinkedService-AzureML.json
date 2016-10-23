@@ -1,0 +1,10 @@
+{
+    "name": "ml_link",
+    "properties": {
+        "type": "AzureML",
+        "typeProperties": {
+            "mlEndpoint": "<Specify the batch scoring URL>",
+            "apiKey": "<Specify the published workspace model's API key>"
+        }
+    }
+}
