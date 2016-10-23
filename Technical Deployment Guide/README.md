@@ -1,12 +1,13 @@
-# Energy Demand Forecasting in Cortana Intelligence Suite
+# Energy Demand Forecast Solution in Cortana Intelligence Suite
 
 
 ## Abstract [YC]
+This solution focuses on demand forecasting within the energy sector. Storing energy is not cost-effective, so utilities and power generators need to forecast future power consumption so that they can efficiently balance the supply with the demand. During peak hours, short supply can result in power outages. Conversely, too much supply can result in waste of resources. Advanced demand forecasting techniques detail hourly demand and peak hours for a particular day, allowing an energy provider to optimize the power generation process. This solution using Cortana Intelligence enables energy companies to quickly introduce powerful forecasting technology into their business.
+
+This solution combines several Azure services to provide powerful advantages. Event Hubs collects real-time consumption data. Stream Analytics aggregates the streaming data and makes it available for visualization. Azure SQL stores and transforms the consumption data. Machine Learning implements and executes the forecasting model. PowerBI visualizes the real-time energy consumption as well as the forecast results. Finally, Data Factory orchestrates and schedules the entire data flow.
 
 
-The recently published [Energy Demand Forecasting Solution Template](https://gallery.cortanaintelligence.com/SolutionTemplate/Demand-Forecasting-for-Energy-1) provides one-click deployment of an energy demand forecasting solution in Cortana Intelligence Suite. This [blog](https://blogs.technet.microsoft.com/machinelearning/2016/03/22/solution-template-for-energy-demand-forecasting/) gives a high level overview of the solution template. Advanced analytics solution implementers, i.e. Data Scientists and Data Engineers, usually need deeper understanding of the template components and architecture in order to use, maintain, and improve the solution.
-
-This documentation provides more details of the solution template and step-by-step deployment instructions. Going through this manual deployment process will help implementers gain an inside view on how the solution is built and the function of each component.
+The published [Energy Demand Forecast Solution](https://go.microsoft.com/fwlink/?linkid=831187) provides one-click deployment of an energy demand forecast solution in Cortana Intelligence Suite. Advanced analytics solution implementers, i.e. Data Scientists and Data Engineers, usually need deeper understanding of the template components and architecture in order to use, maintain, and improve the solution. This documentation provides more details of the solution and step-by-step deployment instructions. Going through this manual deployment process will help implementers gain an inside view on how the solution is built and the function of each component.
 
 ## Requirements [PS]
 
@@ -31,26 +32,31 @@ You will need the following accounts and software to create this solution:
 It will take about one day to implement this solution if you have all the required software/resources ready to use. The content of the document **Energy Demand Forecasting in Cortana Intelligence Suite_Deployment Guide.docx** is the same as this readme file. Use that documentation if you prefer reading a word document.
 
 ## Architecture[YC]
-<img src="Figures/energyforecastingdiagram.png"/>
+![](Figures/energyforecastingdiagram.png)
 
-1.	The sample data is streamed by newly deployed **Azure Web Jobs**.
+The figure above shows the overall architecture of the Energy Demand Forecast solution. There are two paths of the solution: real-time path on the top and batch path on the bottom.
 
-2.	This synthetic data feeds into the **Azure Event Hubs** and **Azure SQL** service as data points or events, that will be used in the rest of the solution flow.
+In the real-time path:
+- The data is simulated from **Azure Web Jobs** and feeds into the **Azure Event Hub**.
 
-3.	**Azure Stream Analytics** analyze the data to provide near real-time analytics on the input stream from the event hub and directly publish to PowerBI for visualization.
+- We use **Azure Stream Analytics** to process the data and provide near real-time analytics on the input stream from the event hub and directly publish to **Power BI** for visualization.
 
-4.	The **Azure Machine Learning** service is used to make forecast on the energy demand of particular region given the inputs received.
+In the bath path:
+- The data is simulated from **Azure Web Jobs** and feeds into the **Azure SQL Database**.
 
-5.	**Azure SQL Database** is used to store the prediction results received from the **Azure Machine Learning** service. These results are then consumed in the **Power BI** dashboard.
+- **Azure Machine Learning** service is used to make forecast on the energy demand of particular region given the inputs received.
 
-6. **Azure Data Factory** handles orchestration, and scheduling of the hourly model retraining.
+- **Azure SQL Database** is used to store the prediction results received from the **Azure Machine Learning** service.
 
-7.	Finally, **Power BI** is used for results visualization, so that users can monitor the energy consumption from a region in real time and use the forecast demand to optimize the power generation or distribution process.
+- **Azure Data Factory** handles orchestration, and scheduling of the hourly model retraining and reforecasting.
+
+- Finally, **Power BI** is used for results visualization, so that users can monitor the energy consumption from each region and use the forecast demand to optimize the power generation or distribution process.
+
+This architecture is an example that demonstrates one way of building energy forecast solution in Cortana Intelligence Suite. User can modify the architecture and include other Azure services based on different business needs.
 
 ## Setup Steps
+This section walks the readers through the creation of each of the Cortana Intelligence Suite services in the architecture.
 
-There are two paths: Batch path and real-time path.
-Explain each path here.
 
 ## Batch Path Setup Steps
 
@@ -62,56 +68,67 @@ Explain each path here.
 
 ### 4. Setup Azure Machine Learning [YC]
 
-This section assumes that you have not set up any workspaces in Azure Machine Learning Studio but that you do have an account at <https://studio.azureml.net/>.
+This section assumes that you have not set up any workspaces in Azure Machine Learning Studio but you do meet the requirements mentioned in the section before.
 
-The first thing we need to do is to create the workspace. A workspace is where Azure Machine Learning experiments are created. It is also tied to a storage account for intermediate results during experiment processing. You can invite others to your workspace by adding them as *USERS* to share and collaborate with people.
+#### 1) Create Azure Machine Learning Workspace
+The first thing we need to do is to create the workspace. A workspace is where Azure Machine Learning experiments are created. It is also tied to a storage account for intermediate results during experiment processing.
 
--   Navigate to ***manage.windowsazure.com*** and login in to your account.
+-  Navigate to **portal.azure.com** and login in with your Azure account.
 
-<!-- -->
+-  On the left, click the **'+'** sign.
 
--   On the left tab click ***MACHINE LEARNING***
+-  In pop out column, type in ***Azure Machine Learning*** in the search bar and then hit enter.
 
--   In the bottom left hand corner click ***NEW***
+- From the next pop out column, choose **Machine Learning Workspace** and then in the new window click **Create**.
 
--   Choose *DATA SERVICES\\MACHINE LEARNING\\QUICK CREATE*
+-  In the new window, entern the folllowing things:
+  - Workspace name: *energysolution[UI][N]*.
+  - Subscription: choose the one that you are using right now.
+  - Resource group: choose the one that you have created.
+  - Location: *South Central US*.
+  - Storage account: select *Create new* and usually the storage name is automatically generated from your workspace name (i.e. *energysolution[UI][N]storage*). You can choose your own storage name as well.
+  - Web service plan: choose *Create new* and then enter a name that you choose. Click *Web service plan pricing tier* to select the plan that you want.
+  - Click *Create*.
 
--   For workspace name enter *energytemplate\[UI\]\[N\]*
-
--   Location South Central US
-
--   Choose the storage account created earlier. **NOTE:** If the previously created storage account doesn’t show up, use an existing one or create a new one. This storage account is for storing intermediate results and log files of Azure Machine Learning.
-
--   Click on ***Create an ML Workspace***
-
+Once the Azure Machine Learning Workspace is created, you will receive a *Deployments succeeded* massage on the portal, as well as an email notification.
 Now that we have a workspace to work within, we can copy over the required experiment from the Cortana Intelligence Gallery.
 
--   Navigate to ***studio.azureml.net*** and log into your account
+#### 2) Get the energy forecast model
 
--   In the upper right hand corner you will see a workspace name. If this does not match the name of the workspace we just created, use the arrow button to expose the workspace selection menu and choose the workspace *energytemplate\[UI\]\[N\]*.
+- Navigate to ***studio.azureml.net*** and log into your account
 
--   Go to [energy forecast sample experiment](https://gallery.cortanaintelligence.com/Details/975ed028d71b490b9268d35094138358) in Cortana Intelligence Gallery.
+- In the upper right hand corner you will see a workspace name. If this does not match the name of the workspace we just created, use the arrow button to expose the workspace selection menu and choose the workspace *energytemplate\[UI\]\[N\]*.
 
--   On the experiment page click the ***Open In Studio*** button
+- Go to [Energy Demand Forecast Solution -Machine Learning Model Example](https://gallery.cortanaintelligence.com/Details/975ed028d71b490b9268d35094138358) in Cortana Intelligence Gallery.
 
--   In the dialog ***Copy experiment from Gallery***, choose appropriate location ***South Central US*** and the workspace we created earlier that you would like to copy it into. Click the **√** button.
+- On the experiment page click the ***Open In Studio*** button
 
--   This process may take a minute and the experiment will open in the requested workspace.
+- In the dialog ***Copy experiment from Gallery***, choose appropriate location ***South Central US*** and the workspace we created earlier that you would like to copy it into. Click the **√** button.
 
--   Click ***RUN*** at the bottom of the experiment page. This step will take less than a minute to finish and all objects in the graph will have a green check box on them to indicate they have finished running.
+- This process may take a minute and the experiment will open in the requested workspace.
 
--   Click ***DEPLOY WEB SERVICE*** at the bottom of the page to create the Azure Web Service associated with the experiment. When completed, the browser will redirect to the web service home page.
+- In the experiment you will see the two boxes in the beginning and end have a red sign. This is because you have not enter your database credentials yet. Click the boxes with the red sign, replace the following things with your own database credentials that you get from the previous steps.
+  - Database server name
+  - Database name
+  - Server user account name
+  - Server user account password
 
-    -   The web service home page can also be found by clicking the ***WEB SERVICES*** button on the left menu of the studio.azureml.net page once logged in.
 
--   Copy the ***API key*** from the web service home page and add it to the table below as you will need this information later.
+- Click ***RUN*** at the bottom of the experiment page. This step will take less than a minute to finish and all objects in the graph will have a green check box on them to indicate they have finished running.
 
--   Click the link ***BATCH EXECUTION*** under the ***API HELP PAGE*** section. On the BATCH EXECUTION help page, copy the ***Request URI*** under the ***Request*** section and add it to the table below as you will need this information later. Copy only the URI part https:… /jobs, ignoring the URI parameters starting with ? .
+- Click ***SET UP WEB SERVICE*** and choose ***Deploy Web Service [Classic]*** at the bottom of the page to create the Azure Web Service associated with the experiment. When completed, the browser will redirect to the web service home page.
+
+    -   The web service home page can also be found by clicking the ***WEB SERVICES*** button on the left menu once logged in your workspace.
+
+- Copy the ***API key*** from the web service home page and add it to the table below as you will need this information later.
+
+- Click the link ***BATCH EXECUTION*** under the ***API HELP PAGE*** section. On the BATCH EXECUTION help page, copy the ***Request URI*** under the ***Request*** section and add it to the table below as you will need this information later. Copy only the URI part https:… /jobs, ignoring the URI parameters starting with ? .
 
 | **Web Service BES Details** |                           |
 |-----------------------------|---------------------------|
 | API Key                     | API key from API help page|
 | Request URI\*               |                           ||
+
 
 ### 5. Setup Azure Data Factory (ADF) [YC]
 We have now created all the necessary components for building data pipelines in Azure Data Factory. Data factory orchestrates all Azure data services to move and process data in pipelines.
