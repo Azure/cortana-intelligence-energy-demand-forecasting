@@ -17,7 +17,7 @@ This solution combines several Azure services to provide powerful advantages. Ev
 The 'Deploy' button will launch a workflow that will deploy an instance of the solution within a Resource Group in the Azure subscription you specify. The solution includes multiple Azure services (described below) along with a web job that simulates data so that immediately after deployment you have a working end-to-end solution. The sample data of this solution is simulated from publicly available data from the NYISO.
 
 ## Solution Diagram
-![Solution Diagram](Documents/Figures/energyforecastingdiagram.png)
+![Solution Diagram](Figures/energyforecastingdiagram.png)
 
 ## Technical details and workflow
 1.	The sample data is streamed by newly deployed **Azure Web Jobs**.
