@@ -132,9 +132,9 @@ Now that we have a workspace to work within, we can copy over the required exper
 ### 5. Setup Azure Data Factory (ADF) [YC]
 Azure Data Factory can be used to orchestrate the entire data pipeline. In this solution, it is mainly used to schedule the data aggregation and model retraining. Here is an overview of the ADF pipeline.
 
-**1 Data Aggregation Pipeline**: Simulated data from Azure web job are sent to Azure SQL every 5mins. When we are building machine learning model, we use hourly data. Therefore, we write a SQL procedure to aggregate the 5mins consumption data to hourly average consumption data. One pipeline is created in Azure Data Factory to trigger the procedure so that we always have the latest hourly consumption data.
+**Data Aggregation Pipeline**: Simulated data from Azure web job are sent to Azure SQL every 5mins. When we are building machine learning model, we use hourly data. Therefore, we write a SQL procedure to aggregate the 5mins consumption data to hourly average consumption data. One pipeline is created in Azure Data Factory to trigger the procedure so that we always have the latest hourly consumption data.
 
-**11 Model Training and Forecasting Pipelines**: There are 11 sub-regions in NYISO and we build one model for each region. Therefore, 11 pipelines are created in Azure Data Factory to trigger the Azure Machine Learning Web Service. Each pipeline sends data from a particular region to the web service and gets the latest retrained model and forecast results. All the results are written back to Azure SQL.
+**Model Training and Forecasting Pipelines**: There are 11 sub-regions in NYISO and we build one model for each region. Therefore, 11 pipelines are created in Azure Data Factory to trigger the Azure Machine Learning Web Service. Each pipeline sends data from a particular region to the web service and gets the latest retrained model and forecast results. All the results are written back to Azure SQL.
 
 There are 3 main components of ADF: link service, dataset and pipeline. You can check the definition of each components [here](https://azure.microsoft.com/en-us/documentation/articles/data-factory-introduction/). In the following instructions, we will show you how to create them for this solution.
 
@@ -211,11 +211,11 @@ We will create ADF datasets pointing to Azure SQL tables. We will use the JSON f
 
 - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
 
-For each JSON file under ***Azure Data Factory\\2-Datasets***,
+For each JSON file under ***Azure Data Factory\\2-Datasets***:
 
--   At the top of the left tab, click ***New dataset*** and select ***Azure SQL ***
+-   At the top of the left tab, click ***New dataset*** and select ***Azure SQL***
 
--   Copy the content of the file into the editor.
+-   Copy the content of the file into the editor
 
 -   Click ***Deploy***
 
@@ -241,16 +241,17 @@ We will use the JSON files located at ***Azure Data Factory\\3-Pipelines.*** At 
     ```
     NOTE: Please limit the active period to the amount of time you need to test the pipeline to limit the cost incurred by data movement and processing.
 
-  - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
+  - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button
   - At the top of the tab, click ***More commands*** and then ***New pipeline***
 
   - Copy the content of the modified JSON file into the editor
 
   - Click ***Deploy***
 
-- Machine learning model retraining and reforecasting pipeline
+- Model training and forecasting pipelines
 
-  There are 11 pipelines in total, one for each region. Each pipeline will send latest data for a particular region to machine learning model, trigger the web service so that the Azure machine learning will retrain based on the new data and reproduce the latest forecast. Then the results will be written back to SQL table.
+  There are 11 pipelines in total, one for each region. Each pipeline will send latest data for a particular region to machine learning model, trigger the web service so that the Azure machine learning will retrain based on the new data and reproduce the latest forecast. Then the results will be written back to SQL table. Below is the instruction for one region. User will need to repeat this for all the regions.
+
   - Open the file ***Azure Data Factory\\3-Pipelines\\Pipeline-ML-Region52.json***
 
   - Specify an active period that you want the pipeline to run. For example, if you want to test the template for 5 days, then set the start and end time as something like:
@@ -272,7 +273,7 @@ We will use the JSON files located at ***Azure Data Factory\\3-Pipelines.*** At 
 ### 6. Setup Power BI [YC]
 The essential goal of this part is to get the demand forecast of each region and visualize it. Power BI can directly connect to an Azure SQL database as its data source, where the prediction results are stored.
 
-> Note:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you deploy the solution so that you have more data points to visualize.
+> Note:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize.
 
 #### 1) Get the database credentials.
 
@@ -282,7 +283,7 @@ The essential goal of this part is to get the demand forecast of each region and
 
   -  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
 
-  -	In this Git repository, you can download the **'EnergyDemandForecastSolution.pbix'** file under the folder **'Power BI Template'** and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
+  -	In this Git repository, you can download the **'EnergyDemandForecastSolution.pbix'** file under the folder **'Power BI'** and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
 
   - On the top of the file, click **‘Edit Queries’** drop down menu. Then choose **'Data Source Settings'**.
   ![](Figures/PowerBI-7.png)
@@ -315,71 +316,69 @@ The essential goal of this part is to get the demand forecast of each region and
 
 ### 3. Setup Azure Web Jobs[PS]
 
-### 4. Azure Stream Analytics Jobs [YC]
+### 4. Azure Stream Analytics Job [YC]
+In this solution, we will show you how to use Stream Analytics Job to join a real-time data stream with reference data and push it to Power BI for real-time visualizations. Besides this, Stream Analytics Job is very powerful at analyzing real-time data. For other examples, you can check [here](https://azure.microsoft.com/en-us/documentation/articles/stream-analytics-twitter-sentiment-analysis-trends/).
+
 #### 1) Provision a Stream Analytics job
 
--	In the Azure portal, click **NEW** > **DATA SERVICES** > **STREAM ANALYTICS** > **QUICK CREATE**.
+-   Navigate to ***portal.azure.com*** and login in to your account.
 
--	Specify the following values, and then click **CREATE STREAM ANALYTICS JOB**:
+-   On the left tab click ***New > Intelligence + analytics > Stream Analytics Job***
 
-	* **JOB NAME**: Enter a job name.
+-   Name: *energysolution\[UI\]\[N\]*
 
-	* **REGION**: Select the region where you want to run the job. Consider placing the job and the event hub in the same region to ensure better performance and to ensure that you will not be paying to transfer data between regions.
+-   Resource Group: Choose the resource group created previously ***energysolution\_resourcegroup***
 
-	* **STORAGE ACCOUNT**: Choose the Azure storage account that you would like to use to store monitoring data for all Stream Analytics jobs that run within this region. You have the option to choose an existing storage account or create a new one.
+-   Location: EAST US
 
-3.	Click **STREAM ANALYTICS** in the left pane to list the Stream Analytics jobs.
+-   Click ***Create***
 
-	The new job will be shown with a status of **CREATED**. Notice that the **START** button on the top of the page is disabled. You must configure the job input, output, and query before you can start the job.
+After the Stream Analytics Job is created successfully, you will be guided to the job page.
+ Notice that the **START** button on the top of the page is disabled. You must configure the job input, output, and query before you can start the job.
 
-#### 2) Specify job input
--	In your Stream Analytics job, click **INPUTS** at the top of the page, and then click **ADD INPUT**. The dialog box that opens will walk you through several steps to set up your input.
+#### 2) Specify stream analytics job input
 
--	Click **DATA STREAM**, and then click the right button.
+- Setup stream data input
+  - In your Stream Analytics job, click **INPUTS**, and then click **+ ADD** on the top. The dialog box that opens will show things that you need to set up in your input.
+    - Input alias: InputEventHub
+    - Source Type: Data Stream
+    - Source: Event Hub
+    - Subscription: Select the one that you are using to set up the Event Hub, usually is the current subscription
+    - Service bus namespace: same as the one you set up in the previous step
+    - Event hub name: same as the one you set up in the previous step
+    - Event hub policy name: RootManageSharedAccessKey
+    - Event hub consumer group: Not needed if you did not set up before
+    - Event serialization format: JSON
+    - Encoding: UTF-8
+  - Click ***Create***
 
--	Click **EVENT HUB**, and then click the right button.
 
--	Type or select the following values on the third page:
-
-	* **INPUT ALIAS**: Enter a friendly name, such as *CallStream*, for this job. Note that you will be using this name in the query later.
-
-	* **EVENT HUB**: If the event hub that you created is in the same subscription as the Stream Analytics job, select the namespace that the event hub is in.
-
-		If your event hub is in a different subscription, select **Use Event Hub from Another Subscription**, and then manually enter information for **SERVICE BUS NAMESPACE**, **EVENT HUB NAME**, **EVENT HUB POLICY NAME**, **EVENT HUB POLICY KEY**, and **EVENT HUB PARTITION COUNT**.
-
-	* **EVENT HUB NAME**: Select the name of the event hub.
-
-	* **EVENT HUB POLICY NAME**: Select the event hub policy that you created earlier in this tutorial.
-
-	* **EVENT HUB CONSUMER GROUP**: Type the name of the consumer group that you created earlier in this tutorial.
-
-- Click the right button.
-
-- Specify the following values:
-  * **EVENT SERIALIZER FORMAT**: JSON
-  * **ENCODING**: UTF8
-
-- Click the **CHECK** button to add this source and to verify that Stream Analytics can successfully connect to the event hub.
-
+- Reference data input
+  - In your Stream Analytics job, click **INPUTS**, and then click **+ ADD** on the top. The dialog box that opens will show things that you need to set up in your input.
+    - Input alias: InputBlobRefData
+    - Source Type: Reference Data
+    - Subscription: Select the one that you are using to set up the Event Hub, usually is the current subscription
+    - Storage account: same as the one you set up in the previous step
+    - Storage account key: same as the one you set up in the previous step
+    - Container: same as the one you set up in the previous step
+    - Path pattern: the path of your file including file name. Usually is 'RegionLookup.csv'
+    - Date format: use the default
+    - Time format: use the default
+    - Event serialization format: csv
+    - Delimiter: comma(,)
+    - Encoding: UTF-8
+  - Click ***Create***
 
 #### 3) Specify job query
 Stream Analytics supports a simple, declarative query model that describes transformations for real-time processing. To learn more about the language, see the [Azure Stream Analytics Query Language Reference](https://msdn.microsoft.com/library/dn834998.aspx).
 
 Now we will create the queries for the jobs:
 
--   Navigate to ***manage.windowsazure.com*** and log in to your account.
+- Click ***QUERY***
 
-<!-- -->
+- In the query box, copy the content of the file in this location ***Azure Stream Analytics//StreamAnalyticsJob-Query.txt***
 
--   On the left tab click ***STREAM ANALYTICS***
-
--   Click on the one of the jobs that was created in the earlier steps.
-
--   At the top of the right page click ***QUERY ***
-
--   In the query box, copy the content of one of the scripts from the package folder ***Stream Analytics Queries***. The query files are named identically to the job name.
-
--   Click ***Save*** at the bottom of the page
+- Click ***Save*** at the bottom of the page
 
 
 #### 4) Specify job output
@@ -397,7 +396,7 @@ to set up the output of your Azure Stream Analytics job as your Power BI dashboa
   - Once you successfully authorize your Power BI account, fill in other informtion as follows. Set the **Output Alias** as **'outputPBI'**. Set your **'Dataset Name'** and **'Table Name'** as **'EnergyForecastStreamData'**. Click **'Create'** once you finish.
 
 #### 5) Start job for real-time processing
-Because a job input, query, and output have all been specified, we are ready to start the Stream Analytics job for real-time fraud detection.
+Because job input, query, and output have all been specified, we are ready to start the Stream Analytics job.
 
 -	From the job **DASHBOARD**, click **START** ![Start](Figures/PowerBI-2.png) at the top of the page.
 
@@ -414,7 +413,7 @@ Because a job input, query, and output have all been specified, we are ready to 
     right side of the screen.
 
 #### 2) Create a visulization on PowerBI online
-We will use this example to show you how to create the "Demand by Timestamp" tile:
+With Power BI, you are enabled to create many kinds of visualizations for your business needs. We will use this example to show you how to create the "Demand by Timestamp" real-time line chart tile.
 
 -	Click dataset **EnergyForecastStreamData** on the left panel Datasets section.
 
@@ -427,6 +426,8 @@ We will use this example to show you how to create the "Demand by Timestamp" til
 -	Click **'Save'** on the top and name the report as “EnergyStreamDataReport”. The report named “EnergyStreamDataReport” will be shown in Reports section in the Navigator pane on left.
 
 -	Click **“Pin Visual”**![](Figures/PowerBI-4.png) icon on top right corner of this line chart, a "Pin to Dashboard" window may show up for you to choose a dashboard. Please select "EnergyStreamDataReport", then click "Pin".
+
+- Once the visualization is pinned to dashboard, it will automatically refresh when Power BI receive new data from stream analytics job.
 
 ## Validation and Results
 need to discuss if we want to keep this
