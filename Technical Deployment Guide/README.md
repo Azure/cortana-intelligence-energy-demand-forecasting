@@ -66,9 +66,6 @@ So for example, Steven X. Smith might use a base service name of *energytemplate
 
 **NOTE:** We create most resources in the South Central US region. The resource availability in different regions depends on your subscription. When deploying you own resources, make sure all data storage and compute resources are created in the same region to avoid inter-region data movement. Azure Resource Group and Azure Data Factory don’t have to be in the same region as the other resources. Azure Resource Group is a virtual group that groups all the resources in one solution. Azure Data Factory is a cloud-based data integration service that automates the movement and transformation of data. Data factory orchestrates the activities of the other services.
 
-There are two paths: Batch path and Real-Time path.
-Explain each path here.
-
 ## Batch Path Setup Steps
 
 ### 1. Create a new Azure Resource Group
@@ -135,7 +132,7 @@ In this step, we will create an Azure SQL Database to store “actual” demand 
 
 - Navigate to ***portal.azure.com*** and login in to your account
 
-- On the left tab click *** + (New) > Databases > SQL Database***
+- On the left tab click ***+ (New) > Databases > SQL Database***
 
 - Enter the name ***energytemplatedb*** for the database name
 
@@ -217,7 +214,7 @@ In this step, we will create Azure Web App Server to run several Web Jobs includ
         |------------------------|---------------------|
         | Key                    | Value               |
         | SqlDriver              |SQL Server           |
-        | SqlServer              |<energytemplate[UI][N]>|
+        | SqlServer              |energytemplate[UI][N]|
         | SqlServerSuffix        |.database.windows.net|
         | SqlDatabase            |energytemplatedb     |
         | SqlUser                | \<SQL Server user name>|
@@ -316,7 +313,7 @@ The first thing we need to do is to create the workspace. A workspace is where A
   - Subscription: choose the one that you are using right now.
   - Resource group: choose the one that you have created.
   - Location: *South Central US*.
-  - Storage account: select *Create new* and usually the storage name is automatically generated from your workspace name (i.e. *energysolution[UI][N]storage*). You can choose your own storage name as well.
+  - Storage account: select *Create new* and usually the storage name is automatically generated from your workspace name (i.e. *energytemplate[UI][N]*). You can choose your own storage name as well.
   - Web service plan: choose *Create new* and then enter a name that you choose. Click *Web service plan pricing tier* to select the plan that you want.
   - Click *Create*.
 
@@ -799,4 +796,17 @@ With Power BI, you are enabled to create many kinds of visualizations for your b
 - Once the visualization is pinned to dashboard, it will automatically refresh when Power BI receive new data from stream analytics job.
 
 ## Validation and Results
-need to discuss if we want to keep this
+
+### 1) Check Data in SQL Database
+- Launch [SQL Server Management Studio](https://msdn.microsoft.com/en-us/library/mt238290.aspx)(SSMS), Visual Studio, or a similar tool, and connect to the database with the information you recorded in the table below.
+
+    -   NOTE: The server name in most tools will require the full name:  
+    energytemplate\[UI\]\[N\].database.windows.net,1433
+
+    -   NOTE: Choose SQL Server Authentication
+
+    -   From the dropdown list of Databases on the left panel under Object Explorer, select ***energytemplatedb*** that you created on the server
+
+    -   Right click on the selected database and expand the tables
+
+    -   Expand the Table and run queries to get better uncerstanding of data
