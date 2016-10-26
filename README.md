@@ -5,6 +5,7 @@ Accurately forecasting spikes in demand for products and services can give a com
 This solution focuses on demand forecasting within the energy sector. Storing energy is not cost-effective, so utilities and power generators need to forecast future power consumption so that they can efficiently balance the supply with the demand. During peak hours, short supply can result in power outages. Conversely, too much supply can result in waste of resources. Advanced demand forecasting techniques detail hourly demand and peak hours for a particular day, allowing an energy provider to optimize the power generation process. This solution using Cortana Intelligence enables energy companies to quickly introduce powerful forecasting technology into their business.
 
 ## Solution Dashboard
+The snapshot below shows the PowerBI dashboard that visualizes the results of the energy demand forecast. You can view the dashboard live [here](https://pcsadwebapp-staging-1.azurewebsites.net/EnergyDemandForecasting/BYOD).
 ![DashboardExample](Post-Deployment Instructions/Figures/PowerBI-11.png)
 
 ## Solution Architecture
@@ -12,6 +13,9 @@ This solution focuses on demand forecasting within the energy sector. Storing en
 
 # Getting Started #
 This solution package contains materials to help both technical and business audiences understand our demand forecasting solution for the energy industry built on the [Cortana Intelligence Suite](https://www.microsoft.com/en-us/server-cloud/cortana-intelligence-suite/Overview.aspx).
+
+# Automated Deployment
+The solution described here can be automatically deployed through the Cortana Intelligence Gallery [here](https://gallery.cortanaintelligence.com/solutions). For instructions to complete the solution post automated deployment, see the **Post Deployment Instructions** folder. See the Technical Deployment Guide in this repository for full details on how this solution is built piece by piece.
 
 # Business Audiences
 In this repository you will find a folder labeled **Solution Overview for Business Audiences**. This folder contains:
@@ -26,9 +30,6 @@ See the **Technical Deployment Guide** folder for a full set of instructions on 
 
 # Related Resources
 We have put together a number of resources that cover different approaches to building energy demand forecasting solutions. These resources are listed below and may be helpful to those exploring ways to build energy demand forecasting solutions using the Cortana Intelligence Suite.
-
-### [Demand Forecasting for Energy Solution](https://gallery.cortanaintelligence.com/SolutionTemplate/Demand-Forecasting-for-Energy-1)
-This solution template in the Cortana Intelligence Gallery provides a semi-automated deployment of the same solution described by the Technical Deployment Guide here. The deployment guide in this repository is intended to provide implementers with a more in-depth understanding of how the end-to-end solution presented in the gallery is built.
 
 ### [Energy Demand Forecasting Playbook](https://azure.microsoft.com/en-us/documentation/articles/cortana-analytics-playbook-demand-forecasting-energy/)
 This playbook aims at providing a reference for energy demand forecasting solutions with the emphasis on major use cases. It is prepared to give the reader an understanding of the most common business scenarios of energy demand forecasting, challenges of qualifying business problems for such solutions, data required to solve these business problems, predictive modeling techniques to build solutions using such data and best practices with sample solution architectures.
