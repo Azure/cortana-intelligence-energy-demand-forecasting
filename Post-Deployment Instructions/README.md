@@ -1,5 +1,7 @@
 # [Energy Demand Forecast Solution](https://go.microsoft.com/fwlink/?linkid=831187)
 
+This folder contains the post-deployment instructions for the deployable Energy Demand Forecast solution in the Cortana Intelligence Gallery. To start a new solution deployment, visit the gallery page [here](https://go.microsoft.com/fwlink/?linkid=831187).
+
 ## Summary
 
 Accurately forecasting spikes in demand for products and services can give a company a competitive advantage. The better the forecasting, the more they can scale as demand increases, and the less they risk holding onto unneeded inventory. Use cases include predicting demand for a product in a retail/online store, forecasting hospital visits, and anticipating power consumption.
