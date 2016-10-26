@@ -4,23 +4,11 @@ Accurately forecasting spikes in demand for products and services can give a com
 
 This solution focuses on demand forecasting within the energy sector. Storing energy is not cost-effective, so utilities and power generators need to forecast future power consumption so that they can efficiently balance the supply with the demand. During peak hours, short supply can result in power outages. Conversely, too much supply can result in waste of resources. Advanced demand forecasting techniques detail hourly demand and peak hours for a particular day, allowing an energy provider to optimize the power generation process. This solution using Cortana Intelligence enables energy companies to quickly introduce powerful forecasting technology into their business.
 
+## Solution Dashboard
+![DashboardExample](Post-Deployment Instructions/Figures/PowerBI-11.png)
+
 ## Solution Architecture
 ![Solution Diagram](Post-Deployment Instructions/Figures/energyforecastingdiagram.png)
-
-## What's under the hood
-1.	The sample data is streamed by newly deployed **Azure Web Jobs**.
-
-2.	This synthetic data feeds into the **Azure Event Hubs** and **Azure SQL** service as data points or events, that will be used in the rest of the solution flow.
-
-3.	**Azure Stream Analytics** analyze the data to provide near real-time analytics on the input stream from the event hub and directly publish to PowerBI for visualization.
-
-4.	The **Azure Machine Learning** service is used to make forecast on the energy demand of particular region given the inputs received.
-
-5.	**Azure SQL Database** is used to store the prediction results received from the **Azure Machine Learning** service. These results are then consumed in the **Power BI** dashboard.
-
-6. **Azure Data Factory** handles orchestration, and scheduling of the hourly model retraining.
-
-7.	Finally, **Power BI** is used for results visualization, so that users can monitor the energy consumption from a region in real time and use the forecast demand to optimize the power generation or distribution process.
 
 # Getting Started #
 This solution package contains materials to help both technical and business audiences understand our demand forecasting solution for the energy industry built on the [Cortana Intelligence Suite](https://www.microsoft.com/en-us/server-cloud/cortana-intelligence-suite/Overview.aspx).
