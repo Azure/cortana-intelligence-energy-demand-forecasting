@@ -15,7 +15,7 @@ The snapshot below shows the PowerBI dashboard that visualizes the results of th
 This solution package contains materials to help both technical and business audiences understand our demand forecasting solution for the energy industry built on the [Cortana Intelligence Suite](https://www.microsoft.com/en-us/server-cloud/cortana-intelligence-suite/Overview.aspx).
 
 # Automated Deployment
-The solution described here can be automatically deployed through the Cortana Intelligence Gallery [here](https://gallery.cortanaintelligence.com/solutions). For instructions to complete the solution post automated deployment, see the **Post Deployment Instructions** folder. See the Technical Deployment Guide in this repository for full details on how this solution is built piece by piece.
+The solution described here can be automatically deployed through the Cortana Intelligence Gallery [here](https://go.microsoft.com/fwlink/?linkid=831187). For instructions to complete the solution after running the automated deployment, see the **Post-Deployment Instructions** folder. See the **Technical Deployment Guide** in this repository for full details on how this solution is built piece by piece.
 
 # Business Audiences
 In this repository you will find a folder labeled **Solution Overview for Business Audiences**. This folder contains:
