@@ -1,5 +1,7 @@
 # [Energy Demand Forecast Solution](https://go.microsoft.com/fwlink/?linkid=831187)
 
+This document is illustrating the post deployment instructions for the automated deployment. If you want to learn the manual deployment instructions, you can click [here](.../Manual Deployment Guide).
+
 # Post Deployment Instructions
 Once the solution is deployed to the subscription, you can see the services deployed by clicking the resource group name on the final deployment screen in the CIS.
 
