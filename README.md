@@ -8,10 +8,10 @@ This solution package contains materials to help both technical and business aud
 
 ## Solution Dashboard
 The snapshot below shows the PowerBI dashboard that visualizes the results of the energy demand forecast. You can view the dashboard live [here](https://pcsadwebapp-staging-1.azurewebsites.net/EnergyDemandForecasting/BYOD).
-![DashboardExample](Post-Deployment Instructions/Figures/PowerBI-11.png)
+![DashboardExample](Automated Deployment Guide/Figures/PowerBI-11.png)
 
 ## Solution Architecture
-![Solution Diagram](Post-Deployment Instructions/Figures/energyforecastingdiagram.png)
+![Solution Diagram](Automated Deployment Guide/Figures/energyforecastingdiagram.png)
 
 ## Business Audiences
 In this repository you will find a folder labeled [*Solution Overview for Business Audiences*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Solution%20Overview%20for%20Business%20Audiences). This folder contains:
