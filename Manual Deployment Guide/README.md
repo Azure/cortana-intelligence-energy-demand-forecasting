@@ -1,5 +1,13 @@
 # Energy Demand Forecast Solution in Cortana Intelligence Suite
 
+## Table of Contents  
+- [Abstract](##Abstract)  
+- [Requirements](##Requirements)
+- [Architecture](##Architecture)
+- [Setup Steps](##Setup Steps)
+  - [Batch Path Setup Steps](##Batch Path Setup Steps)
+  - [Real-time Path Setup Steps](##Real-time Path Setup Steps)
+- [Validation and Results](##Validation and Results)
 
 ## Abstract
 This solution focuses on demand forecasting within the energy sector. Storing energy is not cost-effective, so utilities and power generators need to forecast future power consumption so that they can efficiently balance the supply with the demand. During peak hours, short supply can result in power outages. Conversely, too much supply can result in waste of resources. Advanced demand forecasting techniques detail hourly demand and peak hours for a particular day, allowing an energy provider to optimize the power generation process. This solution using Cortana Intelligence enables energy companies to quickly introduce powerful forecasting technology into their business.
@@ -204,7 +212,7 @@ In this step, we will create Azure Web App Server to run several Web Jobs includ
 
 - In the Web App (App Service), go to ***Settings > Application Settings***
 
-- In the newly opend tab, go to ***App settings*** section
+- Under ***General settings*** section, find ***Always On*** and turn it to ***On***. This setting is to make sure that the data simulator keeps running.
 
 - Under ***App settings*** you will find two empty columns named ***Key*** and ***Value***
 
@@ -527,7 +535,9 @@ The essential goal of this part is to get the demand forecast of each region and
 
 #### 3) [Optional] Publish the dashboard to [Power BIonline](http://www.powerbi.com/)
   Note that this step needs a Power BI account (or Office 365 account).
-  - Click **"Publish"** on the top pannel. Choose **'My Workspace'** and few seconds later a window appears displaying "Publishing successed". Click the link on the screen to open it in a browser and enter your database credentials by following the instructions. To find detailed instructions, see [Publish from Power BI Desktop](https://support.powerbi.com/knowledgebase/articles/461278-publish-from-power-bi-desktop).
+  - Click **"Publish"** on the top panel. Choose **'My Workspace'** and few seconds later a window appears displaying "Publishing succeeded".
+
+  - Click the link on the screen to open it in a browser. On the left panel, go to the **Dataset** section, right click the dataset *'EnergyDemandForecastSolution'*, choose **Dataset Settings**. In the pop out window, click **Enter credentials** and enter your database credentials by following the instructions. To find detailed instructions, please see [Publish from Power BI Desktop](https://support.powerbi.com/knowledgebase/articles/461278-publish-from-power-bi-desktop).
 
   - Now you can see new items showing under 'Reports' and 'Datasets'. To create a new dashboard: click the **'+'** sign next to the
     **Dashboards** section on the left pane. Enter the name "Energy Demand Forecasting Demo" for this new dashboard.
