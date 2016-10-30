@@ -1,13 +1,13 @@
 # Energy Demand Forecast Solution in Cortana Intelligence Suite
 
 ## Table of Contents  
-- [Abstract](#Abstract)  
-- [Requirements](#Requirements)
-- [Architecture](#Architecture)
-- [Setup Steps](#Setup Steps)
-  - [Batch Path Setup Steps](#Batch Path Setup Steps)
-  - [Real-time Path Setup Steps](#Real-time Path Setup Steps)
-- [Validation and Results](#Validation and Results)
+- [Abstract](#abstract)  
+- [Requirements](#requirements)
+- [Architecture](#architecture)
+- [Setup Steps](#setup-steps)
+  - [Batch Path Setup Steps](#batch-path-setup-steps)
+  - [Real-time Path Setup Steps](#real-time-path-setup-steps)
+- [Validation and Results](#validation-and-results)
 
 ## Abstract
 This solution focuses on demand forecasting within the energy sector. Storing energy is not cost-effective, so utilities and power generators need to forecast future power consumption so that they can efficiently balance the supply with the demand. During peak hours, short supply can result in power outages. Conversely, too much supply can result in waste of resources. Advanced demand forecasting techniques detail hourly demand and peak hours for a particular day, allowing an energy provider to optimize the power generation process. This solution using Cortana Intelligence enables energy companies to quickly introduce powerful forecasting technology into their business.
