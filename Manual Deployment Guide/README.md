@@ -1,7 +1,7 @@
 # Energy Demand Forecast Solution in Cortana Intelligence Suite
 
 
-## Abstract 
+## Abstract
 This solution focuses on demand forecasting within the energy sector. Storing energy is not cost-effective, so utilities and power generators need to forecast future power consumption so that they can efficiently balance the supply with the demand. During peak hours, short supply can result in power outages. Conversely, too much supply can result in waste of resources. Advanced demand forecasting techniques detail hourly demand and peak hours for a particular day, allowing an energy provider to optimize the power generation process. This solution using Cortana Intelligence enables energy companies to quickly introduce powerful forecasting technology into their business.
 
 This solution combines several Azure services to provide powerful advantages. Event Hubs collects real-time consumption data. Stream Analytics aggregates the streaming data and makes it available for visualization. Azure SQL stores and transforms the consumption data. Machine Learning implements and executes the forecasting model. PowerBI visualizes the real-time energy consumption as well as the forecast results. Finally, Data Factory orchestrates and schedules the entire data flow.
@@ -9,13 +9,13 @@ This solution combines several Azure services to provide powerful advantages. Ev
 
 The published [Energy Demand Forecast Solution](https://go.microsoft.com/fwlink/?linkid=831187) provides one-click deployment of an energy demand forecast solution in Cortana Intelligence Suite. Advanced analytics solution implementers, i.e. Data Scientists and Data Engineers, usually need deeper understanding of the template components and architecture in order to use, maintain, and improve the solution. This documentation provides more details of the solution and step-by-step deployment instructions. Going through this manual deployment process will help implementers gain an inside view on how the solution is built and the function of each component.
 
-## Requirements 
+## Requirements
 
 You will need the following accounts and software to create this solution:
 
 - Source code and instructions from this GitHub repo
 
-- A [Microsoft Azure subscription](<https://azure.microsoft.com/>) 
+- A [Microsoft Azure subscription](<https://azure.microsoft.com/>)
 
 - An [Azure Machine Learning Studio account](<http://studio.azureml.net>)
 
@@ -73,18 +73,18 @@ So for example, Steven X. Smith might use a base service name of *energytemplate
   - Navigate to ***portal.azure.com*** and log in to your account
 
   - On the left tab click ***Resource Groups***
-  
+
   - In the resource groups page that appears, click ***Add***
-  
+
   - Provide a name ***energytemplate\_resourcegroup***
-  
+
   - Select a ***location***. Note that resource group is a virtual group that groups all the resources in one solution. The resources don’t have to be in the same location as the resource group itself.
-  
+
   - Click ***Create***
 
 ### 2. Setup Azure Storage account
 
-An Azure Storage account is used by the Azure Machine Learning workspace in the Batch path. 
+An Azure Storage account is used by the Azure Machine Learning workspace in the Batch path.
 
   - Navigate to ***portal.azure.com*** and log in to your account.
 
@@ -97,18 +97,18 @@ An Azure Storage account is used by the Azure Machine Learning workspace in the 
   - Set the resource group to the resource group we created by selecting the radio button ***Use existing***
 
   -  Location set to South Central US
-	
+
   - Click ***Create***
 
   - Wait for the storage account to be created
 
-Now that the storage account has been created we need to collect some information about it for other services like Azure Data Factory. 
+Now that the storage account has been created we need to collect some information about it for other services like Azure Data Factory.
 
   - Navigate to ***portal.azure.com*** and log in to your account
 
   - On the left tab click Resource Groups
 
-  - Click on the resource group we created earlier ***energytemplate_resourcegroup***. If you don’t see the resource group, click ***Refresh*** 
+  - Click on the resource group we created earlier ***energytemplate_resourcegroup***. If you don’t see the resource group, click ***Refresh***
 
   - Click on the storage account in Resources
 
@@ -140,11 +140,11 @@ In this step, we will create an Azure SQL Database to store “actual” demand 
 
 - Under Server click the arrow and choose ***Create new server***
     - Name : energytemplate\[UI][N]
-    
+
     - Enter in an administrator account name and password and save it to the table below.
-    
+
     - Choose South Central US as the location to keep the SQL database in the same region as the rest of the services.
-    
+
     - Click **Select**
 
 - Once returned to the SQL Database tab, click ***Create***
@@ -158,7 +158,7 @@ In this step, we will create an Azure SQL Database to store “actual” demand 
 - Under ***Settings*** for the new server, click ***Firewall*** and create a rule called ***open*** with the IP range of 0.0.0.0 to 255.255.255.255. This will allow you to access the database from your desktop. Click ***Save.***
 
     **Note**: This firewall rule is not recommended for production level systems but for this demo is acceptable. You will want to set this rule to the IP range of your secure system.
-                
+
 | **Azure SQL Database** |                     |
 |------------------------|---------------------|
 | Server Name            |energytemplate[UI][N]|
@@ -167,11 +167,11 @@ In this step, we will create an Azure SQL Database to store “actual” demand 
 | Password               |                     ||
 
 
-### 4. Setup Azure Web Job/Data Simulator
+### 4. Setup Azure Web Job/Data Generator
 
-In this step, we will create Azure Web App Server to run several Web Jobs including the Data Simulator Web Jobs and few others.
+In this step, we will create Azure Web App Server to run several Web Jobs including the Data Generator Web Jobs and few others.
 
-#### 1) Create App Service and Service Plan 
+#### 1) Create App Service and Service Plan
 - Navigate to ***portal.azure.com*** and login in to your account
 
 - On the left tab click ***+ New > Web + Mobile > Web App***
@@ -188,7 +188,7 @@ In this step, we will create Azure Web App Server to run several Web Jobs includ
 
     -   Click ***Ok***
 
-- On the Web App tab > App Insights, click ***On*** 
+- On the Web App tab > App Insights, click ***On***
 
 - Click ***Create***
 
@@ -231,18 +231,18 @@ In this step, we will create Azure Web App Server to run several Web Jobs includ
 
 - Click ***Save*** on top of the page to save the settings
 
-#### 3) Upload Data Simulator Web Job 
+#### 3) Upload Data Generator Web Job
 We need to upload the web jobs which will generate the simulated energy data and also a web job to load historic weather/Energy Demand data int SQL Database. We have three web jobs for Batch Path. Web Job **PastData** creats tables, views and stored procedures that will be used by Azure Data Factory. We will more explain more details of the database objects in the Azure Data Factory section as they are closely related. It also loads the historic weather and energy demand data into **DemandHistory5Minutes** and **WeatherHourly**. The WebJob **FiveMinsDataToSQL** simulates energy consumption data and sends it to Azure SQL table **DemandHistory5Minutes** every 5 minutes. It also writes the execution log of the web job into **DemandHistory5Minutes\_SQLLog**, which helps to track failed jobs. Similarly, WebJob **WeatherHourlyDataToSQL** simulates weather data and sends it to Azure SQL table **WeatherHourly** every hour. It also writes corresponding run logs into **WeatherHourly\_SQLLog**.  
-  
+
 - Once you return to the App Service tab save, click on ***WebJobs*** under ***Settings***
 
-##### 1) Add PastData Web Job 
+##### 1) Add PastData Web Job
 - Click ***Add*** on top to upload the PastData job zip and provide following details:
 
      - Name : PastData
 
-      - File Uplaod : browse to the directory where you downloaded the resource. Go to ***Data Simulator*** and select ***PastData.zip***
-    
+      - File Upload : browse to the directory where you downloaded the resource. Go to [*Data Generator*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Data%20Generator) and select ***PastData.zip***
+
       - Type : Triggered
 
       - Triggers : Manual
@@ -254,14 +254,14 @@ We need to upload the web jobs which will generate the simulated energy data and
 - Once you see the web job ***PastData*** in the list, select it and click ***Run*** on the top of that tab
 
 - Wait till the STATUS changes to Completed
-      
-##### 2) Add FiveMinsDataToSQL Web Job 
-- Click ***Add*** on top to upload the Energy data simulator job zip and provide following details:
+
+##### 2) Add FiveMinsDataToSQL Web Job
+- Click ***Add*** on top to upload the Energy data generator job zip and provide following details:
 
      - Name : FiveMinsDataToSQL
 
-      - File Uplaod : browse to the directory where you downloaded the resource. Go to ***Data Simulator*** and select ***FiveMinsDataToSQL.zip***
-    
+      - File Uplaod : browse to the directory where you downloaded the resource. Go to [*Data Generator*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Data%20Generator) and select ***FiveMinsDataToSQL.zip***
+
       - Type : Triggered
 
       - Triggers : Manual
@@ -273,14 +273,14 @@ We need to upload the web jobs which will generate the simulated energy data and
 - Once you see the web job ***FiveMinsDataToSQL*** in the list, select it and click ***Run*** on the top of that tab
 
 - Wait till the STATUS changes to Completed
-      
-##### 3) Add WeatherHourlyDataToSQL Web Job 
- -  Click ***Add*** again to upload the Weather data simulator job zip and provide following details:
+
+##### 3) Add WeatherHourlyDataToSQL Web Job
+ -  Click ***Add*** again to upload the Weather data generator job zip and provide following details:
 
        - Name : WeatherHourlyDataToSQL
 
-       - File Uplaod : browse to the directory where you downloaded the resource. Go to ***Data Simulator*** and select ***WeatherHourlyDataToSQL.zip***
-    
+       - File Uplaod : browse to the directory where you downloaded the resource. Go to [*Data Generator*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Data%20Generator) and select ***WeatherHourlyDataToSQL.zip***
+
        - Type : Triggered
 
        - Triggers : Manual
@@ -293,7 +293,7 @@ We need to upload the web jobs which will generate the simulated energy data and
 
 - Wait till the STATUS changes to Completed
 
-### 5. Setup Azure Machine Learning 
+### 5. Setup Azure Machine Learning
 
 This section assumes that you have not set up any workspaces in Azure Machine Learning Studio but you do meet the requirements mentioned in the section before.
 
@@ -394,7 +394,7 @@ In the ***Author and deploy*** blade, we will create all the components of the d
 
 
 #### 2) Create Linked Services
-We will create 2 Linked services in this solution. The scripts of the Linked services are located in the folder ***Azure Data Factory\\1-Linked Services*** of the solution package.
+We will create 2 Linked services in this solution. The scripts of the Linked services are located in the folder [*Azure Data Factory\\1-Linked Services*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Azure%20Data%20Factory/1-Linked%20Services) of the solution package.
 
 - **LinkedService-AzureSQL**: This is the Linked service for the Azure SQL database.
 
@@ -434,7 +434,7 @@ We will create 2 Linked services in this solution. The scripts of the Linked ser
 
 #### 3) Create Datasets
 
-We will create ADF datasets pointing to Azure SQL tables. We will use the JSON files located at ***Azure Data Factory\\2-Datasets***. No modification is needed on the JSON files.
+We will create ADF datasets pointing to Azure SQL tables. We will use the JSON files located at [*Azure Data Factory\\2-Datasets*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Azure%20Data%20Factory/2-Datasets). No modification is needed on the JSON files.
 
 - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
 
@@ -452,7 +452,7 @@ We will create 12 pipelines in total. Here is a snapshot.
 
 ![](Figures/ADFPipelineExample.png)
 
-We will use the JSON files located at ***Azure Data Factory\\3-Pipelines.*** At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active and are in UTC time. You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/).
+We will use the JSON files located in the [*Azure Data Factory\\3-Pipelines*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Azure%20Data%20Factory/3-Pipelines) folder. At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active and are in UTC time. You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/).
 
 - Data aggregation pipeline
 
@@ -497,6 +497,8 @@ We will use the JSON files located at ***Azure Data Factory\\3-Pipelines.*** At 
 
   - Click ***Deploy***
 
+  - Tip: All the pipelines are following the same format. If you are comfortable working with the portal, you can clone one region's pipeline code and deploy another one for a new region by simply change the region ID. Region ID is from 52 to 62.
+
 ### 7. Setup Power BI
 The essential goal of this part is to get the demand forecast of each region and visualize it. Power BI can directly connect to an Azure SQL database as its data source, where the prediction results are stored.
 
@@ -510,7 +512,7 @@ The essential goal of this part is to get the demand forecast of each region and
 
   -  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
 
-  -	In this Git repository, you can download the **'EnergyDemandForecastSolution.pbix'** file under the folder **'Power BI'** and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
+  -	In this Git repository, you can download the **'EnergyDemandForecastSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
 
   - On the top of the file, click **‘Edit Queries’** drop down menu. Then choose **'Data Source Settings'**.
   ![](Figures/PowerBI-7.png)
@@ -544,7 +546,7 @@ We need to create a blob container to upload a GeoLocation file which will becon
 
   - Open the installed Azure Storage Explorer
 
-  - Log in to your Microsoft account associated with your Azure Subscription. If you already logged in with an account, but want to use a different account, click the person icon and then click the “Add an account…” to log in with another account. 
+  - Log in to your Microsoft account associated with your Azure Subscription. If you already logged in with an account, but want to use a different account, click the person icon and then click the “Add an account…” to log in with another account.
 
   - Locate the storage account created in step 2 above and expand the nodes to see Blob Containers, etc.
 
@@ -555,7 +557,7 @@ We need to create a blob container to upload a GeoLocation file which will becon
      - Enter the container name ***demandforecasting***
 
   - Double click the demandforecasting container
-	
+
   - In the right panel, above the container listing, click the arrow on the Upload button and choose Upload File
 
   - Browse to the ***Data*** folder in the solution package, select the file ***RegionLookup.csv*** and upload it. This will upload the reference geography data of the stations.
@@ -570,11 +572,11 @@ Azure Event Hub is a highly scalable service that can ingest millions of records
 
 - On the left tab click ***Resource Groups***
 
-- Click on the resource group we created earlier ***energytemplate_resourcegroup*** 
+- Click on the resource group we created earlier ***energytemplate_resourcegroup***
 
 - On the resource page click ***Add***
 
-- On the page that appears on the right, type ***Event Hubs*** in the search box. 
+- On the page that appears on the right, type ***Event Hubs*** in the search box.
 
 - Choose ***Event Hubs***
 
@@ -586,7 +588,7 @@ Azure Event Hub is a highly scalable service that can ingest millions of records
 
     - Set Location to *South Central US*
 
-- Click on ***Create*** 
+- Click on ***Create***
 
 #### 2) Create Event Hub and Consumer Groups
 
@@ -598,7 +600,7 @@ Azure Event Hub is a highly scalable service that can ingest millions of records
 
     - Enter *Partition Count* as 4 and *Message Retention* as 7
 
-- Click on ***Create*** 
+- Click on ***Create***
 
 This creates the Azure Event Hub we need to receive the smart meter readings. The Event Hub will be consumed by two Azure Stream Analytics jobs. To ensure processing of the hub is successful we need to create two [consumer groups](https://azure.microsoft.com/en-us/documentation/articles/event-hubs-programming-guide/#event-consumers) on the hub.
 
@@ -634,9 +636,9 @@ The connection string and event hub name information will be needed to configure
 
 ### 3. Setup Azure Web Jobs
 
-#### 1) Update App Service Settings 
+#### 1) Update App Service Settings
 
-We need to set up the Application Service settings which our data simulator web job for Event Hub will utilize
+We need to set up the Application Service settings which our data generator web job for Event Hub will utilize
 
 - In the list of resources, click on the Web App (App Service) that was just created
 
@@ -659,17 +661,17 @@ We need to set up the Application Service settings which our data simulator web 
 
 - Click ***Save*** on top of the page to save the settings
 
-#### 2) Upload Data Simulator Web Job 
-We need to upload the web jobs which will generate the simulated energy data. We have one web job for Real-time Path. The WebJob **FiveMinsDataToEH** simulates energy consumption data and sends it to Azure Event Hub. It also writes the execution log of the web job into **DemandHistory5Minutes\_EHLog**, which helps to track failed jobs. 
+#### 2) Upload Data Generator Web Job
+We need to upload the web jobs which will generate the simulated energy data. We have one web job for Real-time Path. The WebJob **FiveMinsDataToEH** simulates energy consumption data and sends it to Azure Event Hub. It also writes the execution log of the web job into **DemandHistory5Minutes\_EHLog**, which helps to track failed jobs.
 
 - Once you return to the App Service tab after save, click on ***WebJobs*** under ***Settings***
 
-- Click ***Add*** on top to upload the Energy data simulator job zip and provide following details:
+- Click ***Add*** on top to upload the Energy data generator job zip and provide following details:
 
     - Name : FiveMinsDataToEH
 
-    - File Uplaod : browse to the directory where you downloaded the resource. Go to ***Data Simulator*** and select ***FiveMinsDataToEH.zip***
-    
+    - File Uplaod : browse to the directory where you downloaded the resource. Go to [*Data Generator*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Data%20Generator) and select ***FiveMinsDataToEH.zip***
+
     - Type : Triggered
 
     - Triggers : Manual
@@ -682,7 +684,7 @@ We need to upload the web jobs which will generate the simulated energy data. We
 
 - Wait till the STATUS changes to Completed
 
-### 4. Azure Stream Analytics Job 
+### 4. Azure Stream Analytics Job
 In this solution, we will show you how to use Stream Analytics Job to join a real-time data stream with reference data and push it to Power BI for real-time visualizations. Besides this, Stream Analytics Job is very powerful at analyzing real-time data. For other examples, you can check [here](https://azure.microsoft.com/en-us/documentation/articles/stream-analytics-twitter-sentiment-analysis-trends/).
 
 #### 1) Provision a Stream Analytics job
@@ -742,7 +744,7 @@ Now we will create the queries for the jobs:
 
 - Click ***QUERY***
 
-- In the query box, copy the content of the file in this location ***Azure Stream Analytics//StreamAnalyticsJob-Query.txt***
+- In the query box, copy the content of ***StreamAnalyticsJob-Query.txt*** in the folder [*Azure Stream Analytics*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Azure%20Stream%20Analytics).
 
 - Click ***Save*** at the bottom of the page
 
@@ -770,7 +772,7 @@ Because job input, query, and output have all been specified, we are ready to st
 
 - You will get a confirmation message (e.g. 'Streaming Job started successfully') once everything is set up correctly.
 
-### 5. Setup Real-time Power BI 
+### 5. Setup Real-time Power BI
 #### 1) Login on [Power BI online](http://www.powerbi.com)
 
 -   On the left panel Datasets section in My Workspace, you should be able to see a new dataset showing on the left panel of Power BI. This is the streaming data you pushed from Azure Stream Analytics in the previous step.
