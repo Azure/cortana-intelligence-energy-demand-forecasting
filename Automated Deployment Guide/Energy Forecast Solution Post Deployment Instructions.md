@@ -67,22 +67,24 @@ The essential goal of this part is to get the demand forecast of each region and
 
 	- On the top of the screen, you will see a message. Click **'Apply Changes'** and now the dashboard is updated to connect to your database. In the backend, model is scheduled to be refreshed every 1 hour. You can click **'Refresh'** button on the top to get the latest visualization as time moving forward.
 
-3. (Optional) Publish the dashboard to [Power BI
-    online](http://www.powerbi.com/). Note that this step needs a Power BI account (or Office 365 account).
+3. (Optional) Publish the dashboard to [Power BI online](http://www.powerbi.com/).
+    Note that this step needs a Power BI account (or Office 365 account).
 
-	-   Click **"Publish"** on the top pannel. Choose **'My Workspace'** and few seconds later a window appears displaying "Publishing successed". Click the link on the screen to open it in a browser and enter your database credentials by following the instructions. To find detailed instructions, see [Publish from Power BI Desktop](https://support.powerbi.com/knowledgebase/articles/461278-publish-from-power-bi-desktop).
+      - Click **"Publish"** on the top panel. Choose **'My Workspace'** and few seconds later a window appears displaying "Publishing succeeded".
 
-	-   Now you can see new items showing under 'Reports' and 'Datasets'. To create a new dashboard: click the **'+'** sign next to the
-    **Dashboards** section on the left pane. Enter the name "Energy Demand Forecasting Demo" for this new dashboard.
+      - Click the link on the screen to open it in a browser. On the left panel, go to the **Dataset** section, right click the dataset *'EnergyDemandForecastSolution'*, choose **Dataset Settings**. In the pop out window, click **Enter credentials** and enter your database credentials by following the instructions. To find detailed instructions, please see [Publish from Power BI Desktop](https://support.powerbi.com/knowledgebase/articles/461278-publish-from-power-bi-desktop).
 
-	-   Once you open the report, click   ![Pin](Figures/PowerBI-4.png) to pin all the
+      - Now you can see new items showing under 'Reports' and 'Datasets'. To create a new dashboard: click the **'+'** sign next to the
+        **Dashboards** section on the left pane. Enter the name "Energy Demand Forecasting Demo" for this new dashboard.
+
+      - Once you open the report, click   ![Pin](Figures/PowerBI-4.png) to pin all the
 		visualizations to your dashboard. To find detailed instructions, see [Pin a tile to a Power BI dashboard from a report](https://support.powerbi.com/knowledgebase/articles/430323-pin-a-tile-to-a-power-bi-dashboard-from-a-report). Here is an example of the dashboard.
 
       ![DashboardExample](Figures/PowerBI-11.png)
 
 ### Visualize Energy Data From Real-time Data Stream
 
-The essential goal of this part is to visualize the real-time energy consumption data. Power BI can conncet to a real-time data stream through Azure Steram Analytics.
+The essential goal of this part is to visualize the real-time energy consumption data. Power BI can connect to a real-time data stream through Azure Stream Analytics.
 
 > Note: A [Power BI online](http://www.powerbi.com/)
 account is required to perform the following steps. If you don't have an
@@ -96,11 +98,11 @@ to set up the output of your Azure Stream Analytics job as your Power BI dashboa
 
   - Locate the stream analytics job in your [Azure management portal](https://portal.azure.com). The name of the job should be: YourSolutionName+"saJob" (i.e. energydemosaJob). Click **'Outputs'** from the panel on the right.
 
-    ![Add PowerBI output on ASA 1](Figures/PowerBI-1.png)
+    ![Add Power BI output on ASA 1](Figures/PowerBI-1.png)
 
     - On the new window, click **'+Add'** on the top, and then it will show a window asking for information of the output. Under **'Sink'**, choose **'Power BI'**, then click **'Authorize'**. In the pop out window, log in with your Power BI account.
 
-    - Once you successfully authorize your Power BI account, fill in other informtion as follows. Set the **Output Alias** as **'outputPBI'**. Set your **'Dataset Name'** and **'Table Name'** as **'EnergyForecastStreamData'**. Click **'Create'** once you finish.
+    - Once you successfully authorize your Power BI account, fill in other information as follows. Set the **Output Alias** as **'outputPBI'**. Set your **'Dataset Name'** and **'Table Name'** as **'EnergyForecastStreamData'**. Click **'Create'** once you finish.
 
     - Now you have added the Power BI output, you can click ![Start](Figures/PowerBI-2.png) at the top of the page to start the Stream Analytics job. You will get a confirmation message (e.g. 'Streaming Job started successfully').
 
@@ -111,7 +113,7 @@ to set up the output of your Azure Stream Analytics job as your Power BI dashboa
     -   Make sure the ***Visualizations*** pane is open and is shown on the
     right side of the screen.
 
-3. Now you can directly create a visulization on PowerBI online. We will use this example to show you how to create the "Demand by Timestamp" tile:
+3. Now you can directly create a visualization on PowerBI online. We will use this example to show you how to create the "Demand by Timestamp" tile:
 	-	Click dataset **EnergyForecastStreamData** on the left panel Datasets section.
 
 	-	Click **"Line Chart"** icon.![LineChart](Figures/PowerBI-3.png)

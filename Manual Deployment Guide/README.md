@@ -12,7 +12,7 @@
 ## Abstract
 This solution focuses on demand forecasting within the energy sector. Storing energy is not cost-effective, so utilities and power generators need to forecast future power consumption so that they can efficiently balance the supply with the demand. During peak hours, short supply can result in power outages. Conversely, too much supply can result in waste of resources. Advanced demand forecasting techniques detail hourly demand and peak hours for a particular day, allowing an energy provider to optimize the power generation process. This solution using Cortana Intelligence enables energy companies to quickly introduce powerful forecasting technology into their business.
 
-This solution combines several Azure services to provide powerful advantages. Event Hubs collects real-time consumption data. Stream Analytics aggregates the streaming data and makes it available for visualization. Azure SQL stores and transforms the consumption data. Machine Learning implements and executes the forecasting model. PowerBI visualizes the real-time energy consumption as well as the forecast results. Finally, Data Factory orchestrates and schedules the entire data flow.
+This solution combines several Azure services to provide powerful advantages. Event Hubs collects real-time consumption data. Stream Analytics aggregates the streaming data and makes it available for visualization. Azure SQL stores and transforms the consumption data. Machine Learning implements and executes the forecasting model. Power BI visualizes the real-time energy consumption as well as the forecast results. Finally, Data Factory orchestrates and schedules the entire data flow.
 
 
 The published [Energy Demand Forecast Solution](https://go.microsoft.com/fwlink/?linkid=831187) provides one-click deployment of an energy demand forecast solution in Cortana Intelligence Suite. Advanced analytics solution implementers, i.e. Data Scientists and Data Engineers, usually need deeper understanding of the template components and architecture in order to use, maintain, and improve the solution. This documentation provides more details of the solution and step-by-step deployment instructions. Going through this manual deployment process will help implementers gain an inside view on how the solution is built and the function of each component.
@@ -240,7 +240,7 @@ In this step, we will create Azure Web App Server to run several Web Jobs includ
 - Click ***Save*** on top of the page to save the settings
 
 #### 3) Upload Data Generator Web Job
-We need to upload the web jobs which will generate the simulated energy data and also a web job to load historic weather/Energy Demand data int SQL Database. We have three web jobs for Batch Path. Web Job **PastData** creats tables, views and stored procedures that will be used by Azure Data Factory. We will more explain more details of the database objects in the Azure Data Factory section as they are closely related. It also loads the historic weather and energy demand data into **DemandHistory5Minutes** and **WeatherHourly**. The WebJob **FiveMinsDataToSQL** simulates energy consumption data and sends it to Azure SQL table **DemandHistory5Minutes** every 5 minutes. It also writes the execution log of the web job into **DemandHistory5Minutes\_SQLLog**, which helps to track failed jobs. Similarly, WebJob **WeatherHourlyDataToSQL** simulates weather data and sends it to Azure SQL table **WeatherHourly** every hour. It also writes corresponding run logs into **WeatherHourly\_SQLLog**.  
+We need to upload the web jobs which will generate the simulated energy data and also a web job to load historic weather/Energy Demand data into SQL Database. We have three web jobs for Batch Path. Web Job **PastData** creates tables, views and stored procedures that will be used by Azure Data Factory. We will more explain more details of the database objects in the Azure Data Factory section as they are closely related. It also loads the historic weather and energy demand data into **DemandHistory5Minutes** and **WeatherHourly**. The WebJob **FiveMinsDataToSQL** simulates energy consumption data and sends it to Azure SQL table **DemandHistory5Minutes** every 5 minutes. It also writes the execution log of the web job into **DemandHistory5Minutes\_SQLLog**, which helps to track failed jobs. Similarly, WebJob **WeatherHourlyDataToSQL** simulates weather data and sends it to Azure SQL table **WeatherHourly** every hour. It also writes corresponding run logs into **WeatherHourly\_SQLLog**.  
 
 - Once you return to the App Service tab save, click on ***WebJobs*** under ***Settings***
 
@@ -287,7 +287,7 @@ We need to upload the web jobs which will generate the simulated energy data and
 
        - Name : WeatherHourlyDataToSQL
 
-       - File Uplaod : browse to the directory where you downloaded the resource. Go to [*Data Generator*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Data%20Generator) and select ***WeatherHourlyDataToSQL.zip***
+       - File Upload : browse to the directory where you downloaded the resource. Go to [*Data Generator*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Data%20Generator) and select ***WeatherHourlyDataToSQL.zip***
 
        - Type : Triggered
 
@@ -316,7 +316,7 @@ The first thing we need to do is to create the workspace. A workspace is where A
 
 - From the next pop out column, choose **Machine Learning Workspace** and then in the new window click **Create**.
 
--  In the new window, entern the folllowing things:
+-  In the new window, enter the following things:
   - Workspace name: *energysolution[UI][N]*.
   - Subscription: choose the one that you are using right now.
   - Resource group: choose the one that you have created.
@@ -520,7 +520,7 @@ The essential goal of this part is to get the demand forecast of each region and
 
   -  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
 
-  -	In this Git repository, you can download the **'EnergyDemandForecastSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
+  -	In this GitHub repository, you can download the **'EnergyDemandForecastSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
 
   - On the top of the file, click **‘Edit Queries’** drop down menu. Then choose **'Data Source Settings'**.
   ![](Figures/PowerBI-7.png)
@@ -550,7 +550,7 @@ The essential goal of this part is to get the demand forecast of each region and
 ## Real-time Path Setup Steps
 
 ### 1. Prepare the storage containers
-We need to create a blob container to upload a GeoLocation file which will beconsumed in the Real-Time pipeline. Below are the steps to do so:
+We need to create a blob container to upload a Geo Location file which will be consumed in the Real-Time pipeline. Below are the steps to do so:
 
   - Download and install the [Microsoft Azure Storage Explorer](<http://storageexplorer.com/>)
 
@@ -654,7 +654,7 @@ We need to set up the Application Service settings which our data generator web 
 
 - In the Web App (App Service), go to ***Settings > Application Settings***
 
-- In the newly opend tab, go to ***App settings*** section
+- In the newly opened tab, go to ***App settings*** section
 
 - Under ***App settings*** you will find two empty columns named ***Key*** and ***Value***
 
@@ -680,7 +680,7 @@ We need to upload the web jobs which will generate the simulated energy data. We
 
     - Name : FiveMinsDataToEH
 
-    - File Uplaod : browse to the directory where you downloaded the resource. Go to [*Data Generator*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Data%20Generator) and select ***FiveMinsDataToEH.zip***
+    - File Upload : browse to the directory where you downloaded the resource. Go to [*Data Generator*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Data%20Generator) and select ***FiveMinsDataToEH.zip***
 
     - Type : Triggered
 
@@ -771,7 +771,7 @@ to set up the output of your Azure Stream Analytics job as your Power BI dashboa
 
   - On the new window, click **'+Add'** on the top, and then it will show a window asking for information of the output. Under **'Sink'**, choose **'Power BI'**, then click **'Authorize'**. In the pop out window, log in with your Power BI account.
 
-  - Once you successfully authorize your Power BI account, fill in other informtion as follows. Set the **Output Alias** as **'outputPBI'**. Set your **'Dataset Name'** and **'Table Name'** as **'EnergyForecastStreamData'**. Click **'Create'** once you finish.
+  - Once you successfully authorize your Power BI account, fill in other information as follows. Set the **Output Alias** as **'outputPBI'**. Set your **'Dataset Name'** and **'Table Name'** as **'EnergyForecastStreamData'**. Click **'Create'** once you finish.
 
 #### 5) Start job for real-time processing
 Because job input, query, and output have all been specified, we are ready to start the Stream Analytics job.
@@ -790,7 +790,7 @@ Because job input, query, and output have all been specified, we are ready to st
 -   Make sure the ***Visualizations*** pane is open and is shown on the
     right side of the screen.
 
-#### 2) Create a visulization on PowerBI online
+#### 2) Create a visualization on PowerBI online
 With Power BI, you are enabled to create many kinds of visualizations for your business needs. We will use this example to show you how to create the "Demand by Timestamp" real-time line chart tile.
 
 -	Click dataset **EnergyForecastStreamData** on the left panel Datasets section.
@@ -821,4 +821,4 @@ With Power BI, you are enabled to create many kinds of visualizations for your b
 
     -   Right click on the selected database and expand the tables
 
-    -   Expand the Table and run queries to get better uncerstanding of data
+    -   Expand the Table and run queries to get better understanding of data
