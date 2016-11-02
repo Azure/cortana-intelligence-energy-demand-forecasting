@@ -1,6 +1,6 @@
 # [Energy Demand Forecast Solution](https://go.microsoft.com/fwlink/?linkid=831187)
 
-This document is illustrating the post deployment instructions for the automated deployment. If you want to learn the manual deployment instructions, you can click [here](.../Manual Deployment Guide).
+This document is illustrating the post deployment instructions for the automated deployment. If you want to learn the manual deployment instructions, you can click [here](https://github.com/Azure/cortana-intelligence-energy-demand-forecasting/tree/master/Manual%20Deployment%20Guide).
 
 # Post Deployment Instructions
 Once the solution is deployed to the subscription, you can see the services deployed by clicking the resource group name on the final deployment screen in the CIS.
@@ -56,7 +56,7 @@ The essential goal of this part is to get the demand forecast of each region and
 2.	Update the data source of the Power BI file
 	-  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
 
-	-	In this Git repository, you can download the **'EnergyDemandForecastSolution.pbix'** file under the folder **'Power BI'** and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
+	-	In this GitHub repository, you can download the **'EnergyDemandForecastSolution.pbix'** file under the folder **'Power BI'** and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
 
   - On the top of the file, click **‘Edit Queries’** drop down menu. Then choose **'Data Source Settings'**.
   ![](Figures/PowerBI-7.png)
@@ -80,23 +80,19 @@ The essential goal of this part is to get the demand forecast of each region and
       - Once you open the report, click   ![Pin](Figures/PowerBI-4.png) to pin all the
 		visualizations to your dashboard. To find detailed instructions, see [Pin a tile to a Power BI dashboard from a report](https://support.powerbi.com/knowledgebase/articles/430323-pin-a-tile-to-a-power-bi-dashboard-from-a-report). Here is an example of the dashboard.
 
-      ![DashboardExample](Figures/PowerBI-11.png)
+      ![Dashboard Example](Figures/PowerBI-11.png)
 
 ### Visualize Energy Data From Real-time Data Stream
 
 The essential goal of this part is to visualize the real-time energy consumption data. Power BI can connect to a real-time data stream through Azure Stream Analytics.
 
-> Note: A [Power BI online](http://www.powerbi.com/)
-account is required to perform the following steps. If you don't have an
-account, you can [create one](https://powerbi.microsoft.com/pricing).
+> Note: A [Power BI online](http://www.powerbi.com/) account is required to perform the following steps. If you don't have an account, you can [create one here](https://powerbi.microsoft.com/pricing).
 
 1.  Add Power BI output in Azure Stream Analytics (ASA).
 
-  - You can use the instructions in
-[Azure Stream Analytics & Power BI: A real-time analytics dashboard for real-time visibility of streaming data](stream-analytics-power-bi-dashboard.md)
-to set up the output of your Azure Stream Analytics job as your Power BI dashboard.
+  - Navigate to [Azure management portal](https://portal.azure.com) and login with your username and password. On the left tab click ***Resource groups*** and search for the solution you just deployed. The name of the resource group is the same as the name you choose for the solution.
 
-  - Locate the stream analytics job in your [Azure management portal](https://portal.azure.com). The name of the job should be: YourSolutionName+"saJob" (i.e. energydemosaJob). Click **'Outputs'** from the panel on the right.
+  - Click your resource group and locate the stream analytics job. The name of the job should be: YourSolutionName+"saJob" (i.e. energydemosaJob). Click the Stream Analytics job and then click **'Outputs'** from the panel on the right.
 
     ![Add Power BI output on ASA 1](Figures/PowerBI-1.png)
 
@@ -106,6 +102,8 @@ to set up the output of your Azure Stream Analytics job as your Power BI dashboa
 
     - Now you have added the Power BI output, you can click ![Start](Figures/PowerBI-2.png) at the top of the page to start the Stream Analytics job. You will get a confirmation message (e.g. 'Streaming Job started successfully').
 
+    - For other details, you can refer to the instructions in [Azure Stream Analytics & Power BI: A real-time analytics dashboard for real-time visibility of streaming data](https://azure.microsoft.com/en-us/documentation/articles/stream-analytics-power-bi-dashboard/).
+
 2. Login on [Power BI online](http://www.powerbi.com)
 
     -   On the left panel Datasets section in My Workspace, you should be able to see a new dataset showing on the left panel of Power BI. This is the streaming data you pushed from Azure Stream Analytics in the previous step.
@@ -113,10 +111,10 @@ to set up the output of your Azure Stream Analytics job as your Power BI dashboa
     -   Make sure the ***Visualizations*** pane is open and is shown on the
     right side of the screen.
 
-3. Now you can directly create a visualization on PowerBI online. We will use this example to show you how to create the "Demand by Timestamp" tile:
+3. Now you can directly create a visualization on Power BI online. We will use this example to show you how to create the "Demand by Timestamp" tile:
 	-	Click dataset **EnergyForecastStreamData** on the left panel Datasets section.
 
-	-	Click **"Line Chart"** icon.![LineChart](Figures/PowerBI-3.png)
+	-	Click **"Line Chart"** icon.![Line Chart](Figures/PowerBI-3.png)
 
 	-	Click EnergyForecastStreamData in **Fields** panel.
 
