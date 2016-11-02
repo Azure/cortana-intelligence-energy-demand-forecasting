@@ -809,7 +809,7 @@ With Power BI, you are enabled to create many kinds of visualizations for your b
 
 ## Validation and Results
 
-### 1) Check Data in SQL Database
+### Check Data in SQL Database
 - Launch [SQL Server Management Studio](https://msdn.microsoft.com/en-us/library/mt238290.aspx)(SSMS), Visual Studio, or a similar tool, and connect to the database with the information you recorded in the table below.
 
     -   NOTE: The server name in most tools will require the full name:  
