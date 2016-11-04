@@ -32,7 +32,7 @@ Azure Data Factory is used to schedule machine learning model. You can monitor t
 
 #### Azure SQL Database
 
-Azure SQL database is used to save the data and forecast results. You can use the credentials showing on your deployment screen to log in your database and check the results.
+Azure SQL database is used to save the data and forecast results. You can use the SQL server and database name showing on the last page of deployment with the username and password that you set up in the beginning of your deployment to log in your database and check the results.
 
 #### Azure Machine Learning Web Service
 
@@ -51,7 +51,7 @@ The essential goal of this part is to get the demand forecast of each region and
 
 1.  Get the database credentials.
 
-    You can find your database credentials on the page when you finish your deployment.
+    You can find your database and server name on the page when you finish your deployment. The SQL username and password will be the ones you choose in the beginning of the deployment.
 
 2.	Update the data source of the Power BI file
   -  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
@@ -61,9 +61,10 @@ The essential goal of this part is to get the demand forecast of each region and
   - On the top of the file, click **‘Edit Queries’** drop down menu. Then choose **'Data Source Settings'**.
   ![](Figures/PowerBI-7.png)
 
-  - In the pop out window, click **'Change Source'**, then replace the **"Server"** and **"Database"** with	your own server and database names and click **"OK"**. For server
-  name, make sure you specify the port 1433 in the end of your server string
-  (**YourSolutionName.database.windows.net, 1433**). After you finish editing, close the 'Data Source Settings' window.
+  - In the pop out window, click **'Change Source'**, then replace the **"Server"** and **"Database"** with	your own server and database names and click **"OK"**. For server name, make sure you specify the port 1433 in the end of your server string
+  (**YourSolutionName.database.windows.net, 1433**).
+
+  - Then enter your SQL username and password in the next page. After you finish editing, close the 'Data Source Settings' window.
 
   - On the top of the screen, you will see a message. Click **'Apply Changes'** and now the dashboard is updated to connect to your database. In the backend, model is scheduled to be refreshed every 1 hour. You can click **'Refresh'** button on the top to get the latest visualization as time moving forward.
 
