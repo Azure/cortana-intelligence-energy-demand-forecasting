@@ -1,6 +1,28 @@
 # [Energy Demand Forecast Solution](https://go.microsoft.com/fwlink/?linkid=831187)
 
-This document is illustrating the post deployment instructions for the automated deployment. If you want to learn the manual deployment instructions, you can click [here](https://github.com/Azure/cortana-intelligence-energy-demand-forecasting/tree/master/Manual%20Deployment%20Guide).
+This document is focusing on the post deployment instructions for the automated deployment through [Cortana Intelligence Solutions](https://gallery.cortanaintelligence.com/solutions). The source code of the solution as well as manual deployment instructions can be found [here](https://github.com/Azure/cortana-intelligence-energy-demand-forecasting/tree/master/Manual%20Deployment%20Guide).
+
+# Architecture
+The architecture diagram shows various Azure services that are deployed by [Energy Demand Forecast Solution](https://go.microsoft.com/fwlink/?linkid=831187) using [Cortana Intelligence Solutions](https://gallery.cortanaintelligence.com/solutions), and how they are connected to each other in the end to end solution.
+
+![Solution Diagram](Figures/energyforecastingdiagram.png)
+
+
+1.	The sample data is streamed by newly deployed **Azure Web Jobs**.
+
+2.	This synthetic data feeds into the **Azure Event Hubs** and **Azure SQL** service as data points or events, that will be used in the rest of the solution flow.
+
+3.	**Azure Stream Analytics** analyze the data to provide near real-time analytics on the input stream from the event hub and directly publish to PowerBI for visualization.
+
+4.	The **Azure Machine Learning** service is used to make forecast on the energy demand of particular region given the inputs received.
+
+5.	**Azure SQL Database** is used to store the prediction results received from the **Azure Machine Learning** service. These results are then consumed in the **Power BI** dashboard.
+
+6. **Azure Data Factory** handles orchestration, and scheduling of the hourly model retraining.
+
+7.	Finally, **Power BI** is used for results visualization, so that users can monitor the energy consumption from a region in real time and use the forecast demand to optimize the power generation or distribution process.
+
+All the resources listed above besides Power BI are already deployed in your subscription. The following instructions will guide you on how to monitor things that you have deployed and create visualizations in Power BI.
 
 # Post Deployment Instructions
 Once the solution is deployed to the subscription, you can see the services deployed by clicking the resource group name on the final deployment screen in the CIS.
