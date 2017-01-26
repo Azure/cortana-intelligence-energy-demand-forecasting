@@ -4,15 +4,14 @@ This folder contains the post-deployment instructions for the deployable Energy 
 
 <Guide type="PostDeploymentGuidance" url="https://github.com/Azure/cortana-intelligence-energy-demand-forecasting/blob/master/Automated%20Deployment%20Guide/Energy%20Forecast%20Solution%20Post%20Deployment%20Instructions.md"/>
 
-
-## Summary
+## <a name="Summary"></a>Summary
 <Guide type="Summary">
 Accurately forecasting spikes in demand for products and services can give a company a competitive advantage. The better the forecasting, the more they can scale as demand increases, and the less they risk holding onto unneeded inventory. Use cases include predicting demand for a product in a retail/online store, forecasting hospital visits, and anticipating power consumption.
 
 This solution focuses on demand forecasting within the energy sector. Storing energy is not cost-effective, so utilities and power generators need to forecast future power consumption so that they can efficiently balance the supply with the demand. During peak hours, short supply can result in power outages. Conversely, too much supply can result in waste of resources. Advanced demand forecasting techniques detail hourly demand and peak hours for a particular day, allowing an energy provider to optimize the power generation process. This solution using Cortana Intelligence enables energy companies to quickly introduce powerful forecasting technology into their business.
 </Guide>
 
-## Description
+## <a name="Description"></a>Description
 
 #### Estimated Provisioning Time: <Guide type="EstimatedTime">20 Minutes</Guide>
 <Guide type="Description">
@@ -41,7 +40,7 @@ The 'Deploy' button will launch a workflow that will deploy an instance of the s
 7.	Finally, **Power BI** is used for results visualization, so that users can monitor the energy consumption from a region in real time and use the forecast demand to optimize the power generation or distribution process.
 </Guide>
 
-##### Disclaimer
+#### <a name="Disclaimer"></a>Disclaimer
 <Guide type="Disclaimer">
 ©2016 Microsoft Corporation. All rights reserved.  This information is provided "as-is" and may change without notice. Microsoft makes no warranties, express or implied, with respect to the information provided here.  Third party data was used to generate the solution.  You are responsible for respecting the rights of others, including procuring and complying with relevant licenses in order to create similar datasets.
 </Guide>
