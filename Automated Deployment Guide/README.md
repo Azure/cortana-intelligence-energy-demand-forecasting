@@ -14,8 +14,8 @@ This solution focuses on demand forecasting within the energy sector. Storing en
 
 ## Description
 
-#### Estimated Provisioning Time: 20 Minutes
-
+#### Estimated Provisioning Time: <Guide type="EstimatedTime">20 Minutes</Guide>
+<Guide type="Description">
 The Cortana Intelligence Suite provides advanced analytics tools through Microsoft Azure — data ingestion, data storage, data processing and advanced analytics components — all of the essential elements for building an demand forecasting for energy solution.
 
 This solution combines several Azure services to provide powerful advantages. Event Hubs collects real-time consumption data. Stream Analytics aggregates the streaming data and makes it available for visualization. Azure SQL stores and transforms the consumption data. Machine Learning implements and executes the forecasting model. PowerBI visualizes the real-time energy consumption as well as the forecast results. Finally, Data Factory orchestrates and schedules the entire data flow.
@@ -39,6 +39,9 @@ The 'Deploy' button will launch a workflow that will deploy an instance of the s
 6. **Azure Data Factory** handles orchestration, and scheduling of the hourly model retraining.
 
 7.	Finally, **Power BI** is used for results visualization, so that users can monitor the energy consumption from a region in real time and use the forecast demand to optimize the power generation or distribution process.
+</Guide>
 
 ##### Disclaimer
+<Guide type="Disclaimer">
 ©2016 Microsoft Corporation. All rights reserved.  This information is provided "as-is" and may change without notice. Microsoft makes no warranties, express or implied, with respect to the information provided here.  Third party data was used to generate the solution.  You are responsible for respecting the rights of others, including procuring and complying with relevant licenses in order to create similar datasets.
+</Guide>
