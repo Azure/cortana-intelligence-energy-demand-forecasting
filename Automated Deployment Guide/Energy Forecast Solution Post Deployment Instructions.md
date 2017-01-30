@@ -60,8 +60,7 @@ Azure SQL database is used to save the data and forecast results. You can use th
 
 You can view your forecasting model on machine learning experiment by navigating to your Machine Learning Workspace. The machine learning model is deployed as Azure Web Service to be scheduled every hour for retraining by the Azure Data Factory. You can view your the web service API manual by clicking the link on your deployment page.
 
-## **Visualize in Power BI Dashboard**
-
+## **Visualization**
 Power BI dashboard can be used to visualize the real-time energy consumption data as well as the updated energy forecast results. The following instructions will guide you to build a dashboard to visualize data from database and from real-time data stream.
 
 
@@ -146,3 +145,7 @@ The essential goal of this part is to visualize the real-time energy consumption
 	-	Click **'Save'** on the top and name the report as “EnergyStreamDataReport”. The report named “EnergyStreamDataReport” will be shown in Reports section in the Navigator pane on left.
 
 	-	Click **“Pin Visual”**![](Figures/PowerBI-4.png) icon on top right corner of this line chart, a "Pin to Dashboard" window may show up for you to choose a dashboard. Please select "EnergyStreamDataReport", then click "Pin".
+
+
+## **Customization**
+You can reuse the source code in the [Manual Deployment Guide](https://github.com/Azure/cortana-intelligence-energy-demand-forecasting/tree/Yijing-EnergyForecastSolution/Manual%20Deployment%20Guide) to customize the solution for your data and business needs.
