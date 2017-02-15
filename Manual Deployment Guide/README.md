@@ -116,7 +116,7 @@ Now that the storage account has been created we need to collect some informatio
 
   - On the left tab click Resource Groups
 
-  - Click on the resource group we created earlier ***energytemplate_resourcegroup***. If you don’t see the resource group, click ***Refresh***
+  - Click on the resource group we created earlier ***energysolution_resourcegroup***. If you don’t see the resource group, click ***Refresh***
 
   - Click on the storage account in Resources
 
@@ -144,7 +144,7 @@ In this step, we will create an Azure SQL Database to store “actual” demand 
 
 - Enter the name ***energytemplatedb*** for the database name
 
-- Choose the resource group previously created ***energytemplate_resourcegroup***
+- Choose the resource group previously created ***energysolution_resourcegroup***
 
 - Under Server click the arrow and choose ***Create new server***
     - Name : energytemplate\[UI][N]
@@ -159,7 +159,7 @@ In this step, we will create an Azure SQL Database to store “actual” demand 
 
 - Wait for the database and server to be created. This may take few minutes.
 
-- From ***portal.azure.com***, click on Resource Groups, then the group for this demo ***energytemplate_resourcegroup***.
+- From ***portal.azure.com***, click on Resource Groups, then the group for this demo ***energysolution_resourcegroup***.
 
 - In the list of resources, click on the SQL Server that was just created.
 
@@ -378,7 +378,7 @@ There are 3 main components of ADF: link service, dataset and pipeline. You can 
 
 -   Navigate to ***portal.azure.com*** and login in to your account.
 
--   On the left tab click ***New&gt;Data and Analytics&gt;Data Factory***
+-   On the left tab click ***New &gt; Intelligence + Analytics &gt; Data Factory***
 
 -   Name: *energysolution\[UI\]\[N\]*
 
@@ -582,7 +582,7 @@ Azure Event Hub is a highly scalable service that can ingest millions of records
 
 - On the left tab click ***Resource Groups***
 
-- Click on the resource group we created earlier ***energytemplate_resourcegroup***
+- Click on the resource group we created earlier ***energysolution_resourcegroup***
 
 - On the resource page click ***Add***
 
@@ -594,7 +594,7 @@ Azure Event Hub is a highly scalable service that can ingest millions of records
 
     - Enter the name for namespace as energytemplate\[UI\]\[N\]-ns
 
-    - Select Resource Group ***energytemplate_resourcegroup***
+    - Select Resource Group ***energysolution_resourcegroup***
 
     - Set Location to *South Central US*
 
@@ -602,7 +602,7 @@ Azure Event Hub is a highly scalable service that can ingest millions of records
 
 #### 2) Create Event Hub and Consumer Groups
 
-- Once the Event Hubs Namespace is created, go to the resource group ***energytemplate_resourcegroup*** and select the newly created ***Event Hubs*** namespace.
+- Once the Event Hubs Namespace is created, go to the resource group ***energysolution_resourcegroup*** and select the newly created ***Event Hubs*** namespace.
 
 - Click on ***+ Event Hub*** to add Event Hub to this namespace
 
@@ -614,7 +614,7 @@ Azure Event Hub is a highly scalable service that can ingest millions of records
 
 This creates the Azure Event Hub we need to receive the smart meter readings. The Event Hub will be consumed by two Azure Stream Analytics jobs. To ensure processing of the hub is successful we need to create two [consumer groups](https://azure.microsoft.com/en-us/documentation/articles/event-hubs-programming-guide/#event-consumers) on the hub.
 
-- Browse to the Event Hub namespace under the resource group ***energytemplate_resourcegroup***
+- Browse to the Event Hub namespace under the resource group ***energysolution_resourcegroup***
 
 - The event hub we have created above (energytemplate\[UI\]\[N\]) should be highlighted.If you don’t see the event hub, click ***Refresh***
 
@@ -624,7 +624,7 @@ This creates the Azure Event Hub we need to receive the smart meter readings. Th
 
 Finally, we are going to need some information about this event hub for our event generation application that will feed the event hub.
 
-- Browse again to the Event Hub namespace under the resource group ***energytemplate_resourcegroup***
+- Browse again to the Event Hub namespace under the resource group ***energysolution_resourcegroup***
 
 - On the right panel, click on ***Connection Strings***
 
