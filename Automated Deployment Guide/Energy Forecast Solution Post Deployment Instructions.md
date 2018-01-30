@@ -85,7 +85,7 @@ The essential goal of this part is to get the demand forecast of each region and
   - In the pop out window, click **'Change Source'**, then replace the **"Server"** and **"Database"** with	your own server and database names and click **"OK"**. For server name, make sure you specify the port 1433 in the end of your server string
   (**YourSolutionName.database.windows.net, 1433**). After you finish editing, close the 'Data Source Settings' window.
 
-  - On the top of the screen, you will see a message. Click **'Apply Changes'**. A new window will pop out and ask for database credentials. Click **'Database'** on the left of the window, enter your SQL credentials. For ***'Select which level to apply these settings to'***, choose the second one with database name. Then click ***'Connect'***.
+  - On the top of the screen, you will see a message. Click **'Apply Changes'**. A new window will pop out and ask for database credentials. Click **'Database'** on the left of the window, enter your SQL credentials. For **'Select which level to apply these settings to'**, choose the second one with database name. Then click **'Connect'**.
 
   - Now the dashboard is updated to connect to your database. In the backend, model is scheduled to be refreshed every 1 hour. You can click **'Refresh'** button on the top to get the latest visualization as time moving forward.
 
@@ -94,13 +94,13 @@ The essential goal of this part is to get the demand forecast of each region and
 
       - Click **"Publish"** on the top panel. Choose **'My Workspace'** and few seconds later a window appears displaying "Publishing succeeded".
 
-      - Click the link on the screen to open it in a browser. On the left panel, go to the **Dataset** section, right click the dataset *'EnergyDemandForecastSolution'*, choose **Dataset Settings**. In the pop out window, click **Enter credentials** and enter your database credentials by following the instructions. To find detailed instructions, please see [Publish from Power BI Desktop](https://support.powerbi.com/knowledgebase/articles/461278-publish-from-power-bi-desktop).
+      - Click the link on the screen to open it in a browser. On the left panel, go to the **Dataset** section, right click the dataset *'EnergyDemandForecastSolution'*, choose **Dataset Settings**. In the pop out window, click **Enter credentials** and enter your database credentials by following the instructions. To find detailed instructions, please see [Publish to the Power BI Service](https://docs.microsoft.com/en-us/power-bi/desktop-use-directquery#publish-to-the-power-bi-service).
 
       - Now you can see new items showing under 'Reports' and 'Datasets'. To create a new dashboard: click the **'+'** sign next to the
         **Dashboards** section on the left pane. Enter the name "Energy Demand Forecasting Demo" for this new dashboard.
 
       - Once you open the report, click   ![Pin](Figures/PowerBI-4.png) to pin all the
-		visualizations to your dashboard. To find detailed instructions, see [Pin a tile to a Power BI dashboard from a report](https://support.powerbi.com/knowledgebase/articles/430323-pin-a-tile-to-a-power-bi-dashboard-from-a-report). Here is an example of the dashboard.
+		visualizations to your dashboard. To find detailed instructions, see [Pin a tile to a Power BI dashboard from a report](https://docs.microsoft.com/en-us/power-bi/service-dashboard-pin-tile-from-report). Here is an example of the dashboard.
 
       ![Dashboard Example](Figures/PowerBI-11.png)
 
