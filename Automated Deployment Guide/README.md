@@ -1,3 +1,5 @@
+*Note: Cortana Intelligence Gallery is deprecated. Please use mannual deployment guide instead.*
+
 # [Energy Demand Forecast Solution](https://go.microsoft.com/fwlink/?linkid=831187)
 
 This folder contains the post-deployment instructions for the deployable Energy Demand Forecast solution in the Cortana Intelligence Gallery. To start a new solution deployment, visit the gallery page [here](https://go.microsoft.com/fwlink/?linkid=831187).
